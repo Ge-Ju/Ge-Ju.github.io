@@ -1,2 +1,2 @@
 # Ge-Ju.github.io
-Gridea博客
+博客
