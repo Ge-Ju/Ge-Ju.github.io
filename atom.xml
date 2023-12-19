@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://Ge-Ju.github.io</id>
+    <title>Ge-Ju</title>
+    <updated>2023-12-19T13:38:35.964Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://Ge-Ju.github.io"/>
+    <link rel="self" href="https://Ge-Ju.github.io/atom.xml"/>
+    <subtitle>整点有的没的</subtitle>
+    <logo>https://Ge-Ju.github.io/images/avatar.png</logo>
+    <icon>https://Ge-Ju.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2023, Ge-Ju</rights>
+    <entry>
+        <title type="html"><![CDATA[MathType+SimpleTex图像识别实现公式自由]]></title>
+        <id>https://Ge-Ju.github.io/post/mathtypesimpletex-tu-xiang-shi-bie-shi-xian-gong-shi-zi-you/</id>
+        <link href="https://Ge-Ju.github.io/post/mathtypesimpletex-tu-xiang-shi-bie-shi-xian-gong-shi-zi-you/">
+        </link>
+        <updated>2023-12-13T16:42:55.000Z</updated>
+        <summary type="html"><![CDATA[<p>MathType：高效公式输入</p>
+<p>SimpleTex：识别图片中的公式</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>MathType：高效公式输入</p>
+<p>SimpleTex：识别图片中的公式</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[卷积码的编译码与性能分析]]></title>
+        <id>https://Ge-Ju.github.io/post/juan-ji-ma-de-bian-yi-ma-yu-xing-neng-fen-xi/</id>
+        <link href="https://Ge-Ju.github.io/post/juan-ji-ma-de-bian-yi-ma-yu-xing-neng-fen-xi/">
+        </link>
+        <updated>2023-12-12T02:45:39.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数字带通传输系统仿真]]></title>
+        <id>https://Ge-Ju.github.io/post/shu-zi-dai-tong-chuan-shu-xi-tong-fang-zhen/</id>
+        <link href="https://Ge-Ju.github.io/post/shu-zi-dai-tong-chuan-shu-xi-tong-fang-zhen/">
+        </link>
+        <updated>2023-12-08T14:46:00.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用第三方工具禁用windows自动更新和安全中心的方法]]></title>
+        <id>https://Ge-Ju.github.io/post/shi-yong-di-san-fang-gong-ju-jin-yong-windows-zi-dong-geng-xin-he-an-quan-zhong-xin-de-fang-fa/</id>
+        <link href="https://Ge-Ju.github.io/post/shi-yong-di-san-fang-gong-ju-jin-yong-windows-zi-dong-geng-xin-he-an-quan-zhong-xin-de-fang-fa/">
+        </link>
+        <updated>2023-12-06T05:17:30.000Z</updated>
+        <summary type="html"><![CDATA[<p>禁用windows系统自动更新（支持win10/11）</p>
+<p>禁用windows安全中心</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>禁用windows系统自动更新（支持win10/11）</p>
+<p>禁用windows安全中心</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数字基带传输系统仿真]]></title>
+        <id>https://Ge-Ju.github.io/post/shu-zi-ji-dai-chuan-shu-xi-tong-fang-zhen/</id>
+        <link href="https://Ge-Ju.github.io/post/shu-zi-ji-dai-chuan-shu-xi-tong-fang-zhen/">
+        </link>
+        <updated>2023-12-06T03:34:18.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://Ge-Ju.github.io/post/hello-gridea/</id>
+        <link href="https://Ge-Ju.github.io/post/hello-gridea/">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></content>
+    </entry>
+</feed>
