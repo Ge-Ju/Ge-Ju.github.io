@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://Ge-Ju.github.io</id>
+    <title>Ge-Ju</title>
+    <updated>2025-04-22T14:22:21.763Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://Ge-Ju.github.io"/>
+    <link rel="self" href="https://Ge-Ju.github.io/atom.xml"/>
+    <subtitle>这世界并不完美，但正合我意。</subtitle>
+    <logo>https://Ge-Ju.github.io/images/avatar.png</logo>
+    <icon>https://Ge-Ju.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2025, Ge-Ju</rights>
+    <entry>
+        <title type="html"><![CDATA[远程使用服务器+VScode配置]]></title>
+        <id>https://Ge-Ju.github.io/post/yuan-cheng-shi-yong-fu-wu-qi-vscode-pei-zhi/</id>
+        <link href="https://Ge-Ju.github.io/post/yuan-cheng-shi-yong-fu-wu-qi-vscode-pei-zhi/">
+        </link>
+        <updated>2025-04-22T13:26:09.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[随机过程的包络检测]]></title>
+        <id>https://Ge-Ju.github.io/post/sui-ji-guo-cheng-de-bao-luo-jian-ce/</id>
+        <link href="https://Ge-Ju.github.io/post/sui-ji-guo-cheng-de-bao-luo-jian-ce/">
+        </link>
+        <updated>2025-03-09T12:54:03.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[空域滤波器设计]]></title>
+        <id>https://Ge-Ju.github.io/post/kong-yu-lu-bo-qi-she-ji/</id>
+        <link href="https://Ge-Ju.github.io/post/kong-yu-lu-bo-qi-she-ji/">
+        </link>
+        <updated>2025-03-09T12:52:27.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[心电信号心率检测方法]]></title>
+        <id>https://Ge-Ju.github.io/post/xin-dian-xin-hao-xin-lu-jian-ce-fang-fa/</id>
+        <link href="https://Ge-Ju.github.io/post/xin-dian-xin-hao-xin-lu-jian-ce-fang-fa/">
+        </link>
+        <updated>2025-03-09T12:49:16.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="实验内容">实验内容</h2>
+<p>心电信号（EEG）：心电是心脏心肌细胞电活动的综合反映，心电的产生与心肌细胞的除极和复极过程密不可分。心电信号的生理参数如下：</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="实验内容">实验内容</h2>
+<p>心电信号（EEG）：心电是心脏心肌细胞电活动的综合反映，心电的产生与心肌细胞的除极和复极过程密不可分。心电信号的生理参数如下：</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[脑电ERP信号的提取方法]]></title>
+        <id>https://Ge-Ju.github.io/post/nao-dian-erp-xin-hao-de-ti-qu-fang-fa/</id>
+        <link href="https://Ge-Ju.github.io/post/nao-dian-erp-xin-hao-de-ti-qu-fang-fa/">
+        </link>
+        <updated>2025-03-09T12:31:33.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[VR眼动数据的目标识别]]></title>
+        <id>https://Ge-Ju.github.io/post/vr-yan-dong-shu-ju-de-mu-biao-shi-bie/</id>
+        <link href="https://Ge-Ju.github.io/post/vr-yan-dong-shu-ju-de-mu-biao-shi-bie/">
+        </link>
+        <updated>2025-03-09T12:26:56.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="实验内容">实验内容</h2>
+<p>眼动仪是一种能够跟踪测量眼球位置及眼球运动信息的一种设备，在视觉系统、心理学、认知语言学的研究中有广泛的应用。通用设备原理为角膜反射法。</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="实验内容">实验内容</h2>
+<p>眼动仪是一种能够跟踪测量眼球位置及眼球运动信息的一种设备，在视觉系统、心理学、认知语言学的研究中有广泛的应用。通用设备原理为角膜反射法。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[VPN魔法]]></title>
+        <id>https://Ge-Ju.github.io/post/vpn-mo-fa/</id>
+        <link href="https://Ge-Ju.github.io/post/vpn-mo-fa/">
+        </link>
+        <updated>2024-08-25T05:09:56.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[office激活工具]]></title>
+        <id>https://Ge-Ju.github.io/post/office-ji-huo-gong-ju/</id>
+        <link href="https://Ge-Ju.github.io/post/office-ji-huo-gong-ju/">
+        </link>
+        <updated>2024-08-25T05:05:21.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[win11改为win10风格开始菜单和右键菜单]]></title>
+        <id>https://Ge-Ju.github.io/post/win11-gai-wei-win10-feng-ge-kai-shi-cai-dan-he-you-jian-cai-dan/</id>
+        <link href="https://Ge-Ju.github.io/post/win11-gai-wei-win10-feng-ge-kai-shi-cai-dan-he-you-jian-cai-dan/">
+        </link>
+        <updated>2024-08-17T05:58:52.000Z</updated>
+        <summary type="html"><![CDATA[<p>开始菜单和右键菜单退回win10风格，自定义文件管理器等。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>开始菜单和右键菜单退回win10风格，自定义文件管理器等。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[x86汇编实现带符号超长十进制数加法器]]></title>
+        <id>https://Ge-Ju.github.io/post/x86-hui-bian-shi-xian-dai-fu-hao-chao-chang-shi-jin-zhi-shu-jia-fa-qi/</id>
+        <link href="https://Ge-Ju.github.io/post/x86-hui-bian-shi-xian-dai-fu-hao-chao-chang-shi-jin-zhi-shu-jia-fa-qi/">
+        </link>
+        <updated>2024-04-25T14:59:34.000Z</updated>
+        <summary type="html"><![CDATA[<p>x86汇编实现带符号超长十进制数加法器</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>x86汇编实现带符号超长十进制数加法器</p>
+]]></content>
+    </entry>
+</feed>

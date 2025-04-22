@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="这世界并不完美，但正合我意。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>卷积码的编译码与性能分析 | Ge-Ju</title>
+<link rel="shortcut icon" href="https://Ge-Ju.github.io/favicon.ico?v=1745331734893">
+<link rel="stylesheet" href="https://Ge-Ju.github.io/styles/main.css">
+
+
+  <link rel="canonical" href="https://Ge-Ju.github.io/post/juan-ji-ma-de-bian-yi-ma-yu-xing-neng-fen-xi/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="
+Ⅰ简介
+背景知识简介
+卷积码是一种线性、时间不变的编码方式，通常用于数字通信和数据存储系统中，以提高系统的可靠性。卷积码具有较好的纠错性能，能够有效地抵抗信道中的噪声和干扰。
+卷积码编码原理
+卷积码的编码过程涉及多个级联的滞后寄存器和模2..." />
+  <meta name="referrer" content="always" />
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/katex.min.css">
+  <script defer src="https://Ge-Ju.github.io/media/scripts/katex.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/prism.css">
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://Ge-Ju.github.io" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://Ge-Ju.github.io/images/avatar.png?v=1745331734893"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> Ge-Ju </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/gallery" class="menu">
+        相册
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            卷积码的编译码与性能分析
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2023-12-12
+          </time>
+          <span class="read-times">
+            16 min read
+          </span>
+          
+          <a href="https://Ge-Ju.github.io/tag/WKzP_mOFx/" class="post-tags">
+            # 通信原理
+          </a>
+          
+        </div>
+        
+        <img src='https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202312061709453.jpg' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <!-- more -->
+<h2 id="i简介">Ⅰ简介</h2>
+<h3 id="背景知识简介">背景知识简介</h3>
+<p>卷积码是一种线性、时间不变的编码方式，通常用于数字通信和数据存储系统中，以提高系统的可靠性。卷积码具有较好的纠错性能，能够有效地抵抗信道中的噪声和干扰。</p>
+<p><strong>卷积码编码原理</strong></p>
+<p>卷积码的编码过程涉及多个级联的滞后寄存器和模2加法器。其中，滞后寄存器用于存储输入比特的历史信息，并且通过一系列的状态转移操作，每个时刻都会生成多个输出比特。具体过程如下：</p>
+<ol>
+<li>
+<p><strong>滞后寄存器</strong>：卷积码通常采用两个或多个滞后寄存器，每个寄存器内存储一个比特，这些寄存器的初始状态称为编码器的初始状态。在每个时刻，输入比特经过滞后寄存器移位后与滞后寄存器中的比特进行模2加法运算，得到输出比特。</p>
+</li>
+<li>
+<p><strong>模2加法器</strong>：对滞后寄存器中的比特进行模2加法运算，得到输出比特。模2加法即异或操作，将输入比特与滞后寄存器中的比特进行异或运算，得到输出比特。</p>
+</li>
+<li>
+<p><strong>生成矩阵</strong>：通过合适的生成矩阵，可以确定卷积码的具体编码规则，即确定每个输入比特如何影响输出比特。</p>
+</li>
+</ol>
+<p><strong>卷积码译码原理</strong></p>
+<p>卷积码的译码过程通常采用迭代译码算法，其中最知名的算法是 Viterbi 算法。该算法通过比较接收到的信号与所有可能的发送信号序列之间的距离，以找到最可能的发送信号序列，从而实现译码。</p>
+<ol>
+<li>
+<p><strong>费诺译码</strong>：卷积码的译码首先需要将接收到的信号转换为软信息，通常采用费诺译码器来实现。费诺译码器将接收到的信号映射为对应的概率分布或似然度，以便后续的译码算法使用。</p>
+</li>
+<li>
+<p><strong>Viterbi 算法</strong>：Viterbi 算法通过动态规划的方式，在所有可能的发送信号序列中寻找最可能的序列。它考虑了接收到的信号与各个可能发送信号序列之间的距离，并利用状态转移图和路径记忆技术来寻找最可能的发送信号序列。</p>
+</li>
+<li>
+<p><strong>迭代译码</strong>：为了提高译码性能，通常采用迭代译码的方式，即多次应用译码算法。典型的方法包括迭代译码和软信息反馈等。</p>
+</li>
+</ol>
+<p>通过以上的编码和译码过程，卷积码能够在信道噪声环境下实现可靠的信息传输和存储。</p>
+<h3 id="作业目标">作业目标</h3>
+<h4 id="实验目的">实验目的</h4>
+<ol>
+<li>掌握卷积编码及维特比译码的基本原理，实现一个（n,k,N）=（2,1,3）的卷积编译码系统。</li>
+<li>熟悉Matlab环境并编写函数实现功能。</li>
+<li>熟悉实验报告的规范写作方法。</li>
+</ol>
+<h4 id="实验内容">实验内容</h4>
+<ol>
+<li>
+<p>生成源二进制序列b=[1101111100]。</p>
+</li>
+<li>
+<p>考虑如下卷积编码器：生成矩阵的行向量为g<sub>1</sub>= [111]，g<sub>2</sub>= [101]</p>
+<figure data-type="image" tabindex="1"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311201939571.png" alt="image-20231120193931505" loading="lazy"></figure>
+<p>根据生成矩阵的系数，设计一个能够实现卷积编码器的函数。</p>
+</li>
+<li>
+<p>取b=[1101111100]为所设计编码器的输入序列，求出输出序列c并验证。</p>
+<figure data-type="image" tabindex="2"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311201940340.png" alt="image-20231120194032299" loading="lazy"></figure>
+</li>
+<li>
+<p>状态转移图如下，画出对应的网格图。</p>
+<figure data-type="image" tabindex="3"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311201940644.png" alt="image-20231120194051594" loading="lazy"></figure>
+</li>
+<li>
+<p>根据上述卷积编码器，用Matlab编程设计对应的维特比译码函数，使用汉明距离作为度量。</p>
+</li>
+<li>
+<p>将序列c作为译码器函数的输入，得到序列d，d是否等于b？如果不相等，请解释原因。</p>
+</li>
+<li>
+<p>更改序列c的一位，然后尝试使用所设计的译码器再次译码。会发生什么现象？</p>
+</li>
+</ol>
+<h2 id="ii基本原理算法概述">Ⅱ基本原理/算法概述</h2>
+<ol>
+<li>
+<p>在matlab中录入序列[1101111100]。</p>
+</li>
+<li>
+<p>根据卷积码编码原理图和规定的编码规则，实现卷积码编码。</p>
+<p>首先生成移存器状态序列，即在输入序列前加<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>个零，末尾按需加零清洗移存器。</p>
+<p>截取前N个移存器状态，将其先反转再与生成矩阵G相乘，即可得到当前状态的卷积码。</p>
+<p>截取下一位前N个移存器状态，重复上述过程，直到移存器状态序列被读取完，即完成序列的卷积码编码。</p>
+</li>
+<li>
+<p>根据题2中的编码规则进行编码验证。</p>
+</li>
+<li>
+<p>根据状态图绘制网格图。</p>
+</li>
+<li>
+<p>译码的主要步骤——传播剪枝，规律如下：<br>
+<img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202312121051916.png" alt="" loading="lazy"><br>
+首先，按顺序生成前三个状态的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mi>N</mi></msup></mrow><annotation encoding="application/x-tex">2^N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413309999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span></span></span></span>条路线：<br>
+<img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202312121052136.png" alt="" loading="lazy"><br>
+对比可以发现，第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>条路线与第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mrow><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup><mo>+</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">2^{(N-1)}+i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9713299999999999em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>条路线指向同一状态，因此将它们两两对比，保留汉明距离小的路线：<br>
+<img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202312121052539.png" alt="" loading="lazy"><br>
+观察可知，为了向前传时，能够有相同的路线规律，需要将保留的路径重整，即先在这<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mrow><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">2^{(N-1)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span>行的每一行下面插入与自己相同的序列，再把这<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mi>N</mi></msup></mrow><annotation encoding="application/x-tex">2^N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413309999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span></span></span></span></span></span></span></span>个序列末端交替赋值为0,1，得到下一状态的八条路径，并且仍然有第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>条路线与第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mrow><mo>(</mo><mi>N</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow></msup><mo>+</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">2^{(N-1)}+i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9713299999999999em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>条路线指向同一状态这一规律：<br>
+<img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202312121053511.png" alt="" loading="lazy"><br>
+重复重整，比较汉明距离，剪枝，按照这个流程按序列长传播下去，用卷积码编码函数生成对应的8条卷积码序列，8条卷积码序列与原码序列同步移位，最终能得到四条汉明距离小的路径，最终在其中挑出汉明距离最小的路径，即为译码结果。</p>
+</li>
+</ol>
+<h2 id="iii编程实现概述">Ⅲ编程实现概述</h2>
+<ol>
+<li>
+<p>编程如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+data = [1 1 0 1 1 1 1 1 0 0];
+</code></pre>
+</li>
+<li>
+<p>编写函数如下：</p>
+<pre><code class="language-matlab">%% 卷积编码函数
+function C = conv_encode(m,G)
+%输入序列m
+%生成适量G
+%卷积码结果C
+%仅适用(n,1,N)卷积编码
+
+len = length(m);
+[n,N] = size(G);%规定(n,k,N)
+
+C = zeros(1,n*len);%初始化为0，清洗寄存器
+input = [zeros(1,N-1),m,zeros(1,N+1)];%输入序列首尾补零，清洗移存器
+C_reg = fliplr(input(1,1:N));%翻转前三个输入序列，取三个移存器状态
+for i =1:len+N
+    C(n*i-(n-1):n*i) =  mod(C_reg*G',2);%生成每一位输入符号的n位输出
+    C_reg = fliplr(input(1,1+i:N+i));%更新移存器状态
+end
+end
+</code></pre>
+</li>
+<li>
+<p>编程如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+%% 主函数
+data = [1 1 0 1 1 1 1 1 0 0];
+G = [1 1 1;1 0 1];
+C = conv_encode(data,G);
+% 展示卷积码
+C_reshape = reshape(C,2,length(data)+3);%重整矩阵，每一列表示输出的卷积码
+fprintf('输入序列：\t%s\n',num2str(data));
+fprintf('卷积编码：\t%s\n',num2str(C_reshape));
+
+%% 卷积编码函数
+function C = conv_encode(m,G)
+%输入序列m
+%生成适量G
+%卷积码结果C
+%仅适用(n,1,N)卷积编码
+
+len = length(m);
+[n,N] = size(G);%规定(n,k,N)
+
+C = zeros(1,n*len);%初始化为0，清洗寄存器
+input = [zeros(1,N-1),m,zeros(1,N+1)];%输入序列首尾补零，清洗移存器
+C_reg = fliplr(input(1,1:N));%翻转前三个输入序列，取三个移存器状态
+for i =1:len+N
+    C(n*i-(n-1):n*i) =  mod(C_reg*G',2);%生成每一位输入符号的n位输出
+    C_reg = fliplr(input(1,1+i:N+i));%更新移存器状态
+end
+end
+</code></pre>
+</li>
+<li>
+<p>编程结果如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+%% 主函数
+data = [1 1 0 1 1 1 1 1 0 0];
+G = [1 1 1;1 0 1];
+C = conv_encode(data,G);
+% 展示卷积码
+C_reshape = reshape(C,2,length(data));%重整矩阵，每一列表示输出的卷积码
+fprintf('输入序列：\t%s\n',num2str(data));
+fprintf('卷积编码：\t%s\n',num2str(C_reshape));
+% (213)卷积码译码
+decode_output = conv_decode(G,C);
+fprintf('译码序列：\t%s\n',num2str(decode_output));
+%% 卷积编码函数,不清空移存器
+function C = conv_encode(m,G)
+%输入序列m
+%生成适量G
+%卷积码结果C
+%仅适用(n,1,N)卷积编码
+
+len = length(m);
+[n,N] = size(G);%规定(n,k,N)
+
+C = zeros(1,n*len);%初始化为0，清洗寄存器
+input = [zeros(1,N-1),m,zeros(1,N+1)];%输入序列首尾补零，清洗移存器
+C_reg = fliplr(input(1,1:N));%翻转前三个输入序列，取三个移存器状态
+for i =1:len
+    C(n*i-(n-1):n*i) = mod(C_reg*G',2);%生成每一位输入符号的n位输出
+    C_reg = fliplr(input(1,1+i:N+i));%更新移存器状态
+end
+end
+
+%% 维特比译码函数
+function [ decode_output ] = conv_decode(g,decode_input)
+%生成矩阵g
+%编码位数k
+%待解码序列decode_input
+
+[n,N] = size(g);%规定(n,k,N)
+len = length(decode_input);%卷积码长度
+net_states = zeros(2^N,len/n);%网络状态对应的原码
+decode_net = zeros(2^N,len);%网络状态对应的卷积码
+distance = zeros(2^N,1);%汉明距离记录
+%生成网格图前N状态
+for i=1:2^N
+    net_states(i,1:N) = dec2bin(i-1,N);
+    decode_net(i,1:n*N) = conv_encode(net_states(i,1:N),g);
+    distance(i,1) = hamming(decode_net(i,1:n*N),decode_input(1:n*N));
+end
+%比较前N状态汉明距离并剪枝
+for i=1:2^(N-1)
+    if distance(i+2^(N-1),1)&lt;distance(i,1)
+        decode_net(i,1:n*N) = decode_net(i+2^(N-1),1:n*N);
+        net_states(i,1:N) = net_states(i+2^(N-1),1:N);
+        distance(i,1) = distance(i+2^(N-1),1);
+    else
+        continue
+    end
+end
+%向前传播并剪枝
+for j = 1:len/n-3
+    %重整
+    for i=1:2^(N-1)
+        decode_net(2^N-2*i+2,1:n*(N+j-1)) = decode_net(2^(N-1)-i+1,1:n*(N+j-1));
+        decode_net(2^N-2*i+1,1:n*(N+j-1)) = decode_net(2^(N-1)-i+1,1:n*(N+j-1));
+        net_states(2^N-2*i+2,1:N+j-1) = net_states(2^(N-1)-i+1,1:N+j-1);
+        net_states(2^N-2*i+1,1:N+j-1) = net_states(2^(N-1)-i+1,1:N+j-1);
+        distance(2^N-2*i+2,1) = distance(2^(N-1)-i+1,1);
+        distance(2^N-2*i+1,1) = distance(2^(N-1)-i+1,1);
+    end
+    %向前传播
+    for i=1:2^N
+        net_states(i,N+j) = 0.5+0.5*(-1)^i;
+        decode_net(i,1:n*(N+j)) = conv_encode(net_states(i,1:N+j),g);
+        distance(i,1) = hamming(decode_net(i,1:n*(N+j)),decode_input(1:n*(N+j)));
+    end
+    %比较当前状态汉明距离并剪枝
+    for i=1:2^(N-1)
+        if distance(i+2^(N-1),1)&lt;distance(i,1)
+            decode_net(i,n*(N+j-1)+1:n*(N+j)) = decode_net(i+2^(N-1),n*(N+j-1)+1:n*(N+j));
+            net_states(i,1:N+j) = net_states(i+2^(N-1),1:N+j);
+            distance(i,1) = distance(i+2^(N-1),1);
+        else
+            continue
+        end
+    end
+end
+%最终比较
+distance_min = distance(1,1);
+flag_min = 1;
+for i=2:2^(N-1)
+    if distance(i,1)&lt;distance_min
+        distance_min = distance(i,1);
+        flag_min = i;
+    else
+        continue
+    end
+end
+decode_output = net_states(flag_min,1:len/n);
+end
+ %% 十进制数转为二进制数,每一位分别储存
+ function [ y ] = dec2bin(x,L)
+ %x十进制数
+ %y二进制数
+ %L二进制数长度
+ y = zeros(1,L);
+ i = 1;
+ while x&gt;=0 &amp;&amp; i&lt;=L
+     y(i) = rem(x,2);
+     x = (x-y(i))/2;
+     i = i+1;
+ end
+ y = y(L:-1:1);
+ end
+
+%% 汉明距离测量
+function [ distance ] = hamming(x,y)
+%输入两长度相同序列x,y
+len = length(x);
+distance = 0;
+for i=1:len
+    if x(1,i)==y(1,i)
+        continue
+    else
+        distance = distance + 1;
+    end
+end
+end
+</code></pre>
+</li>
+</ol>
+<h2 id="iv仿真结果和分析">Ⅳ仿真结果和分析</h2>
+<ol start="3">
+<li>
+<p>运行结果如下：</p>
+<pre><code class="language-matlab">输入序列：	1  1  0  1  1  1  1  1  0  0
+卷积编码：	11    01    01    00    01    10    10    10    01    11    00    00    00
+&gt;&gt; 
+</code></pre>
+<p>在矩阵重整时，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span></span></span></span>矩阵是1行<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>∗</mo><mo>(</mo><mi>N</mi><mo>+</mo><mn>3</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">n*(N+3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mclose">)</span></span></span></span>列矩阵，而重整为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>行<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>N</mi><mo>+</mo><mn>3</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">(N+3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mclose">)</span></span></span></span>列矩阵时，因为重整过程是先按顺序将每行填满，再到下一行，故只能重整为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>行<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>N</mi><mo>+</mo><mn>3</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">(N+3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mclose">)</span></span></span></span>列矩阵，不能重整成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>N</mi><mo>+</mo><mn>3</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">(N+3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mclose">)</span></span></span></span>行<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>列矩阵，这样会导致每列并不是同一组卷积码，需要特别注意。</p>
+<p>经过手算验证，可知卷积编码正确。</p>
+</li>
+<li>
+<p>状态设置如下：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>移存器状态(M<sub>2</sub>,M<sub>3</sub>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>00</td>
+</tr>
+<tr>
+<td>b</td>
+<td>01</td>
+</tr>
+<tr>
+<td>c</td>
+<td>10</td>
+</tr>
+<tr>
+<td>d</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<p>根据状态图绘制网格图如下：</p>
+<figure data-type="image" tabindex="4"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202312062304300.png" alt="image-20231206230452217" loading="lazy"></figure>
+</li>
+<li>
+<p>编程运行结果如下：</p>
+<pre><code class="language-matlab">输入序列：	1  1  0  1  1  1  1  1  0  0
+卷积编码：	11    01    01    00    01    10    10    10    01    11
+译码序列：	1  1  0  1  1  1  1  1  0  0
+&gt;&gt; 
+</code></pre>
+<p>可以发现译码成功。</p>
+</li>
+<li>
+<p>根据题5的运行结果可知</p>
+<p>序列c：</p>
+<pre><code>11    01    01    00    01    10    10    10    01    11
+</code></pre>
+<p>作为译码器函数的输入，得到序列d：</p>
+<pre><code>1  1  0  1  1  1  1  1  0  0
+</code></pre>
+<p>d等于b:</p>
+<pre><code>1  1  0  1  1  1  1  1  0  0
+</code></pre>
+</li>
+<li>
+<p>更改序列c中的一位，使其为：</p>
+<pre><code>10    01    01    00    01    10    10    10    01    11
+</code></pre>
+<p>得到的译码结果为：</p>
+<pre><code>输入序列：	1  1  0  1  1  1  1  1  0  0
+卷积编码（改）：	10    01    01    00    01    10    10    10    01    11
+译码序列：	1  1  0  1  1  1  1  1  0  0
+&gt;&gt; 
+</code></pre>
+<p>更改序列c中的一位，使其为：</p>
+<pre><code>11    01    01    00    11    10    10    10    01    11
+</code></pre>
+<p>得到的译码结果为：</p>
+<pre><code>输入序列：	1  1  0  1  1  1  1  1  0  0
+卷积编码（改）：	11    01    01    00    11    10    10    10    01    11
+译码序列：	1  1  0  1  1  1  1  1  0  0
+&gt;&gt; 
+</code></pre>
+<p>更改序列c中的一位，使其为：</p>
+<pre><code>11    01    01    00    01    10    10    10    01    10
+</code></pre>
+<p>得到的译码结果为：</p>
+<pre><code>输入序列：	1  1  0  1  1  1  1  1  0  0
+卷积编码（改）：	11    01    01    00    01    10    10    10    01    10
+译码序列：	1  1  0  1  1  1  1  1  0  0
+&gt;&gt; 
+</code></pre>
+<p>可以发现，无论是在序列c起始，中段，末尾发生一位序列更改，都不影响译码结果，说明卷积码有良好的抗噪声性能。</p>
+</li>
+</ol>
+<h2 id="v结论">Ⅴ结论</h2>
+<ol>
+<li>本实验根据卷积码的编码和译码原理，仿真实现了卷积码的编码和译码。</li>
+<li>本实验通过对卷积码中加入误码，再进行译码，验证了卷积码的抗噪声性能。</li>
+<li>本实验的译码过程涉及两层循环，并且其中有大量的序列覆写，因此性能开销较大，有后续优化的空间。</li>
+</ol>
+<h2 id="参考文献">参考文献</h2>
+<p>[1]Discrete Signals and Systems with MATLAB®[S].</p>
+<p>[2]Digital Signal Processing: A Primer With MATLAB[S].</p>
+<p>[3]Fundamentals of Graphics Using MATLAB[S].</p>
+<p>[4]樊昌信，曹丽娜主编.通信原理  第7版  [M].北京：国防工业出版社,2022.6</p>
+
+          </div>
+          <div class="toc-container">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#i%E7%AE%80%E4%BB%8B">Ⅰ简介</a>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86%E7%AE%80%E4%BB%8B">背景知识简介</a></li>
+<li><a href="#%E4%BD%9C%E4%B8%9A%E7%9B%AE%E6%A0%87">作业目标</a>
+<ul>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84">实验目的</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#ii%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0">Ⅱ基本原理/算法概述</a></li>
+<li><a href="#iii%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%A6%82%E8%BF%B0">Ⅲ编程实现概述</a></li>
+<li><a href="#iv%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C%E5%92%8C%E5%88%86%E6%9E%90">Ⅳ仿真结果和分析</a></li>
+<li><a href="#v%E7%BB%93%E8%AE%BA">Ⅴ结论</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE">参考文献</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/shu-zi-dai-tong-chuan-shu-xi-tong-fang-zhen/">下一篇</a>
+          </div>
+        </div>
+        
+        
+        <div class="prev-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/mathtypesimpletex-tu-xiang-shi-bie-shi-xian-gong-shi-zi-you/">上一篇</a>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://Ge-Ju.github.io/atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://Ge-Ju.github.io/media/scripts/jquery.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/browser.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/breakpoints.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/util.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/main.js"></script>
+  
+  <script src="https://Ge-Ju.github.io/media/scripts/prism.js"></script>
+  <script>
+    Prism.highlightAll();
+  </script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>

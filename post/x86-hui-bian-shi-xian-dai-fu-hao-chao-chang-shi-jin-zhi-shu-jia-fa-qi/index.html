@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="这世界并不完美，但正合我意。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>x86汇编实现带符号超长十进制数加法器 | Ge-Ju</title>
+<link rel="shortcut icon" href="https://Ge-Ju.github.io/favicon.ico?v=1745331734893">
+<link rel="stylesheet" href="https://Ge-Ju.github.io/styles/main.css">
+
+
+  <link rel="canonical" href="https://Ge-Ju.github.io/post/x86-hui-bian-shi-xian-dai-fu-hao-chao-chang-shi-jin-zhi-shu-jia-fa-qi/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="x86汇编实现带符号超长十进制数加法器
+
+本程序实现带符号超长（100位）十进制数加法器，正数可以带+号。程序如下：
+DATAS SEGMENT
+      org 100h
+      A     db 200 dup(?)      ;..." />
+  <meta name="referrer" content="always" />
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/katex.min.css">
+  <script defer src="https://Ge-Ju.github.io/media/scripts/katex.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/prism.css">
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://Ge-Ju.github.io" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://Ge-Ju.github.io/images/avatar.png?v=1745331734893"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> Ge-Ju </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/gallery" class="menu">
+        相册
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            x86汇编实现带符号超长十进制数加法器
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2024-04-25
+          </time>
+          <span class="read-times">
+            6 min read
+          </span>
+          
+          <a href="https://Ge-Ju.github.io/tag/Bj5Gg-sPk/" class="post-tags">
+            # x86汇编
+          </a>
+          
+        </div>
+        
+        <img src='https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202404252258022.jpeg' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <p>x86汇编实现带符号超长十进制数加法器</p>
+<!-- more -->
+<p>本程序实现带符号超长（100位）十进制数加法器，正数可以带<code>+</code>号。程序如下：</p>
+<pre><code class="language-assembly">DATAS SEGMENT
+      org 100h
+      A     db 200 dup(?)      ;第一个数
+      org 300h
+      B     db 200 dup(?)      ;第二个数
+      count db ?               ;记录最大位数
+      temp  db ?               ;进位标志位
+      len1  db 0               ;记录A的位数
+      len2  db 0               ;B的位数
+      flag  dw 0
+DATAS ENDS
+
+CODES SEGMENT
+                 ASSUME CS:CODES,DS:DATAS,SS:DATAS
+START proc far
+                 MOV    AX,DATAS
+                 MOV    DS,AX
+                 mov    es,ax
+                 xor    ax,ax
+      in1:                                              ;A数组的输入
+                 mov    ah,1
+                 int    21h
+                 cmp    al,'-'
+                 jz     fushu1
+                 cmp    al,'+'
+                 jz     in1
+                 sub    al,'0'
+                 cmp    al,0                            ;判定输入的字符是否是0-9
+                 jl     @F
+                 cmp    al,9
+                 jg     @F
+                 push   ax
+                 inc    len1
+                 jmp    in1
+      fushu1:    
+                 inc    flag
+                 jmp    in1
+@@:                                                     ;不是0-9的数字，回车换行
+                 mov    dl,10
+                 mov    ah,2
+                 int    21h
+                 mov    dl,13
+                 mov    ah,2
+                 int    21h
+                 lea    di,A
+                 mov    cl,len1
+@@:                                                     ;将数组A倒置
+                 pop    ax
+                 mov    [di],al
+                 inc    di
+                 loop   @B
+
+                 lea    si,flag
+                 mov    al,[si]
+                 shl    al,1                            ;正正0，正负1，负正2，负负3
+                 mov    [si],al
+                 xor    ax,ax
+      in2:                                              ;输入B数组
+                 mov    ah,1
+                 int    21h
+                 cmp    al,'-'
+                 jz     fushu2
+                 cmp    al,'+'
+                 jz     in2
+                 sub    al,'0'                          ;判定输入的字符是否是0-9
+                 cmp    al,0
+                 jl     @F
+                 cmp    al,9
+                 jg     @F
+                 push   ax
+                 inc    len2
+                 jmp    in2
+      fushu2:    
+                 inc    flag
+                 jmp    in2
+@@:
+                 mov    dl,10
+                 mov    ah,2
+                 int    21h
+                 mov    dl,13
+                 mov    ah,2
+                 int    21h
+                 lea    si,B
+                 mov    cl,len2
+@@:                                                     ;将数组B倒置
+                 pop    ax
+                 mov    [si],al
+                 inc    si
+                 loop   @B
+
+                 lea    si,flag
+                 mov    al,[si]
+                 cmp    al,0
+                 jz     zhengzheng
+                 cmp    al,1
+                 jz     zhengfu
+                 cmp    al,2
+                 jz     fuzheng
+      fufu:      
+                 mov    dl,2DH
+                 mov    ah,2
+                 int    21h
+                 call   jiafa
+                 jmp    close
+
+      zhengzheng:
+                 call   jiafa
+                 jmp    close
+
+      zhengfu:   
+                 call   jianfa
+                 jmp    close
+
+      fuzheng:   
+                 call   jianfa
+
+      close:     
+                 MOV    AH,4CH
+                 INT    21H
+START endp
+
+jiafa proc
+                 mov    bl,len1
+                 mov    al,len2
+                 mov    count,bl                        ;比较出最大位数，并将位数小的数组在高位补0，直到位数相等
+                 cmp    bl,al
+                 jz     sa1
+                 jg     xy1
+                 mov    count,al
+                 sub    al,bl
+                 mov    cl,al
+@@:
+                 mov    [di],0
+                 inc    di
+                 loop   @B
+                 jmp    sa1
+      xy1:       
+                 sub    bl,al
+                 mov    cl,bl
+@@:
+
+                 mov    [si],0
+                 inc    si
+                 loop   @B
+      sa1:       
+                 mov    cl,count
+                 lea    di,A
+                 lea    si,B
+                 mov    temp,0                          ;设置进位标志
+                 clc
+      fg1:                                              ;2个数组add
+                 mov    bl,[si]
+                 cmp    temp,1
+                 clc
+                 jnz    p11
+                 stc
+      p11:        
+                 mov    temp,0
+                 adc    bl,[di]
+                 cmp    bl,10
+                 jl     p21
+                 sub    bl,10
+                 mov    temp,1
+      p21:        
+                 push   bx
+                 inc    di
+                 inc    si
+                 loop   fg1
+                 cmp    temp,1
+                 jnz    p31
+                 mov    bl,1                            ;最高位有进位，加1位并置1
+                 push   bx
+                 inc    count
+      p31:        
+                 mov    cl,0
+@@:                                                     ;清除前面多余的0
+                 pop    ax
+                 inc    cl
+                 cmp    cl,count
+                 jz     @F
+                 cmp    al,0
+                 jz     @B
+@@:
+                 push   ax
+                 dec    cl
+                 sub    count,cl
+                 mov    cl,count
+@@:                                                     ;结果输出
+                 pop    dx
+                 add    dl,'0'
+                 mov    ah,2
+                 int    21h
+                 loop   @B
+                 ret
+jiafa endp
+
+jianfa proc                                             ;a的绝对值减b的绝对值
+                 mov    bl,len1
+                 mov    al,len2
+                 mov    count,bl                        ;比较出最大位数，并将位数小的数组在高位补0，直到位数相等
+                 mov    cl,bl
+                 cmp    bl,al
+                 jz     com
+                 jg     xy2
+                 mov    count,al
+                 sub    al,bl
+                 mov    cl,al
+@@:
+                 mov    [di],0
+                 inc    di
+                 loop   @B
+                 jmp    sba
+      xy2:       
+                 sub    bl,al
+                 mov    cl,bl
+@@:
+                 mov    [si],0
+                 inc    si
+                 loop   @B
+                 jmp    sab
+      ;比较a/b大小
+      com:   
+                 lea    di,A
+                 lea    si,B
+                 mov    bl,[di]
+                 mov    al,[si]
+                 cmp    bl,al
+                 jl     sba
+                 jg     sab
+                 inc    di
+                 inc    si
+                 loop   com
+
+                 mov    dl,'0'
+                 mov    ah,2
+                 int    21h
+                 mov    dl,0ah
+                 mov    ah,2
+                 int    21h
+                 mov    dl,0dh
+                 mov    ah,2
+                 int    21h
+                 jmp    return1
+      ;a&gt;b时让a-b
+      sab:       
+                 mov    cl,count
+                 lea    di,A
+                 lea    si,B
+                 mov    temp,0                          ;设置进位标志
+      fg12:      
+                 mov    bl,[di]
+                 sub    bl,temp
+                 mov    temp,0
+                 cmp    bl,[si]
+                 jge    p22
+                 add    bl,10
+                 mov    temp,1
+      p22:       
+                 sub    bl,[si]
+                 push   bx
+                 inc    di
+                 inc    si
+                 loop   fg12
+                 lea    si,flag
+                 mov    al,[si]
+                 cmp    al,2                            ;判断是否是负，如果是，带符号
+                 jnz    p12
+                 mov    dl,2DH                          ;输入‘-’
+                 mov    ah,2
+                 int    21h
+                 jmp    p12
+      ;
+      ;a&lt;b是让b-a
+      sba:       
+                 mov    cl,count
+                 lea    di,A
+                 lea    si,B
+                 mov    temp,0                          ;设置进位标志
+      fg22:                                             ;2个数组sub
+                 mov    bl,[si]
+                 sub    bl,temp
+                 mov    temp,0
+                 cmp    bl,[di]
+                 jge    p32
+                 add    bl,10
+                 mov    temp,1
+      p32:       
+                 sub    bl,[di]
+                 push   bx
+                 inc    di
+                 inc    si
+                 loop   fg22
+                 lea    si,flag
+                 mov    al,[si]
+                 cmp    al,2                            ;判断是否为正，如果是，不带负号
+                 jz     p12
+                 mov    dl,2DH                          ;输入‘-’
+                 mov    ah,2
+                 int    21h
+      p12:       
+                 mov    cl,0
+@@:                                                     ;清除前面多余的0
+                 pop    ax
+                 inc    cl
+                 cmp    cl,count
+                 jz     @F
+                 cmp    al,0
+                 jz     @B
+@@:
+                 push   ax
+                 dec    cl
+                 sub    count,cl
+                 mov    cl,count
+@@:                                                     ;结果输出
+                 pop    dx
+                 add    dl,'0'
+                 mov    ah,2
+                 int    21h
+                 loop   @B
+return1:
+                 ret
+jianfa endp
+CODES ENDS
+END START
+</code></pre>
+
+          </div>
+          <div class="toc-container">
+            
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/mathtypesimpletex-tu-xiang-shi-bie-shi-xian-gong-shi-zi-you/">下一篇</a>
+          </div>
+        </div>
+        
+        
+        <div class="prev-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/win11-gai-wei-win10-feng-ge-kai-shi-cai-dan-he-you-jian-cai-dan/">上一篇</a>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://Ge-Ju.github.io/atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://Ge-Ju.github.io/media/scripts/jquery.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/browser.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/breakpoints.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/util.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/main.js"></script>
+  
+  <script src="https://Ge-Ju.github.io/media/scripts/prism.js"></script>
+  <script>
+    Prism.highlightAll();
+  </script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>

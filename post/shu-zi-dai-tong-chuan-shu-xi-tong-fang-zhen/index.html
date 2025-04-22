@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="这世界并不完美，但正合我意。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>数字带通传输系统仿真 | Ge-Ju</title>
+<link rel="shortcut icon" href="https://Ge-Ju.github.io/favicon.ico?v=1745331734893">
+<link rel="stylesheet" href="https://Ge-Ju.github.io/styles/main.css">
+
+
+  <link rel="canonical" href="https://Ge-Ju.github.io/post/shu-zi-dai-tong-chuan-shu-xi-tong-fang-zhen/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="
+Ⅰ简介
+背景知识简介
+二进制相移键控
+相移键控是利用载波的相位变化来传递数字信息，而振幅和频率保持不变。在2PSK中，通常用初始相位0和π\piπ分别表示二进制“0”和“1”。因此，2PSK信号的时域表达式为：
+e2PSK(t)=Acos..." />
+  <meta name="referrer" content="always" />
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/katex.min.css">
+  <script defer src="https://Ge-Ju.github.io/media/scripts/katex.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/prism.css">
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://Ge-Ju.github.io" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://Ge-Ju.github.io/images/avatar.png?v=1745331734893"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> Ge-Ju </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/gallery" class="menu">
+        相册
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            数字带通传输系统仿真
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2023-12-08
+          </time>
+          <span class="read-times">
+            13 min read
+          </span>
+          
+          <a href="https://Ge-Ju.github.io/tag/WKzP_mOFx/" class="post-tags">
+            # 通信原理
+          </a>
+          
+        </div>
+        
+        <img src='https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202312061709453.jpg' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <!-- more -->
+<h2 id="i简介">Ⅰ简介</h2>
+<h3 id="背景知识简介">背景知识简介</h3>
+<p><strong>二进制相移键控</strong></p>
+<p>相移键控是利用载波的相位变化来传递数字信息，而振幅和频率保持不变。在2PSK中，通常用初始相位0和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span></span></span></span>分别表示二进制“0”和“1”。因此，2PSK信号的时域表达式为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>e</mi><mrow><mn>2</mn><mi>P</mi><mi>S</mi><mi>K</mi></mrow></msub><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mi>A</mi><mi>cos</mi><mo>⁡</mo><mo>(</mo><msub><mi>ω</mi><mi>c</mi></msub><mi>t</mi><mo>+</mo><msub><mi>φ</mi><mi>n</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">{e_{2PSK}}(t) = A\cos ({\omega _c}t + {\varphi _n})
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">P</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span><span class="mord mathdefault mtight" style="margin-right:0.07153em;">K</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">A</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">cos</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
+<p>式中，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>φ</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">\varphi _n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>表示第n个符号的绝对相位，即：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>φ</mi><mi>n</mi></msub><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mi mathvariant="normal">发</mi><mi mathvariant="normal">送</mi><mn>0</mn><mi mathvariant="normal">时</mi></mrow><annotation encoding="application/x-tex">{\varphi _n} = 0, 发送0时
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">发</span><span class="mord cjk_fallback">送</span><span class="mord">0</span><span class="mord cjk_fallback">时</span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>φ</mi><mi>n</mi></msub><mo>=</mo><mi>π</mi><mo separator="true">,</mo><mi mathvariant="normal">发</mi><mi mathvariant="normal">送</mi><mn>1</mn><mi mathvariant="normal">时</mi></mrow><annotation encoding="application/x-tex">{\varphi _n} =  \pi, 发送1时
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">φ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">发</span><span class="mord cjk_fallback">送</span><span class="mord">1</span><span class="mord cjk_fallback">时</span></span></span></span></span></p>
+<p>由于表示信号的两种码元的波形相同，极性相反，故2PSK信号一般可以表述为一个双极性全占空矩形脉冲序列与一个正弦载波相乘。</p>
+<p>这种以载波不同相位直接去表示相应二进制数字信号的调制方式，称为二进制绝对相移方式。</p>
+<p>2PSK调制方法如下图：</p>
+<img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311252125806.png" alt="image-20231125212508672" style="zoom: 33%;" />
+<p>和2ASK调制原理相似，只不过基带码元是双极性不归零码，基带码元d(t)和高频载波相乘实现2PSK信号的调制。</p>
+<p>2PSK信号的解调通常采用相干解调法，原理框图如下图所示：</p>
+<figure data-type="image" tabindex="1"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311252127693.png" alt="image-20231125212733634" loading="lazy"></figure>
+<p>在相干解调过程中，如何得到与接收信号同频同相的相干载波是个关键问题。</p>
+<p><strong>二进制差分相移键控</strong></p>
+<p>2PSK相干解调时，由于载波恢复中相位有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn><mi mathvariant="normal">、</mi><mi>π</mi></mrow><annotation encoding="application/x-tex">0、\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord cjk_fallback">、</span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span></span></span></span>模糊性，导致解调过程出现”反向工作“现象，恢复出的数字信号”0“和”1“倒置，从而使2PSK难以实际应用。为了克服这一点，提出了魏晋至差分相移键控(2DPSK)方式。</p>
+<p>2DPSK是利用前后相邻码元的载波相对相位变化传递数字信息，所以又称相对相移键控。假设<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>φ</mi></mrow><annotation encoding="application/x-tex">\Delta \varphi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">Δ</span><span class="mord mathdefault">φ</span></span></span></span>为当前码元与前一码元的载波相位差，可定义一种数字信息与<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>φ</mi></mrow><annotation encoding="application/x-tex">\Delta \varphi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">Δ</span><span class="mord mathdefault">φ</span></span></span></span>之间的关系为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>φ</mi><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mi mathvariant="normal">表</mi><mi mathvariant="normal">示</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">字</mi><mi mathvariant="normal">信</mi><mi mathvariant="normal">息</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta \varphi  =  0, 表示数字信息0  
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">Δ</span><span class="mord mathdefault">φ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">示</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">字</span><span class="mord cjk_fallback">信</span><span class="mord cjk_fallback">息</span><span class="mord">0</span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>φ</mi><mo>=</mo><mi>π</mi><mo separator="true">,</mo><mi mathvariant="normal">表</mi><mi mathvariant="normal">示</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">字</mi><mi mathvariant="normal">信</mi><mi mathvariant="normal">息</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">  \Delta \varphi  = \pi , 表示数字信息1
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">Δ</span><span class="mord mathdefault">φ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">示</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">字</span><span class="mord cjk_fallback">信</span><span class="mord cjk_fallback">息</span><span class="mord">1</span></span></span></span></span></p>
+<p>上述对应关系也可以反过来，因此初始参考相位不同，得到的2DPSK码也不同。</p>
+<p>2DPSK信号产生方法：先对二进制数字基带信号进行差分编码，即把表示数字信息序列的绝对码变换成相对码，然后再根据相对码进行绝对调相，从而产生二进制差分相移键控信号。调制器键控法原理图如下：</p>
+<figure data-type="image" tabindex="2"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311252148684.png" alt="image-20231125214803612" loading="lazy"></figure>
+<p>差分码可取传号差分码或空号差分码。其中，传号差分码的编码规则为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>b</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mi>n</mi></msub><mo>⊕</mo><msub><mi>b</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">{b_n} = {a_n} \oplus {b_{n - 1}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>式中，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">a_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为绝对码，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>b</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">b_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>为相对码，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>⊕</mo></mrow><annotation encoding="application/x-tex">\oplus</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">⊕</span></span></span></span>为模2加。最初的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>b</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">b_{n-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>可任意设置。</p>
+<p>2DPSK可相干解调加码反变换，也可差分相干解调，相干解调加码反变换原理图如下：</p>
+<figure data-type="image" tabindex="3"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311252154573.png" alt="image-20231125215459471" loading="lazy"></figure>
+<p>差分相干解调原理框图如下：</p>
+<figure data-type="image" tabindex="4"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311252158142.png" alt="image-20231125215806078" loading="lazy"></figure>
+<h3 id="作业目标">作业目标</h3>
+<h4 id="实验目的">实验目的</h4>
+<ol>
+<li>掌握数字带通传输系统的基本知识。</li>
+<li>熟悉Matlab环境并编写函数实现功能。</li>
+<li>熟悉实验报告的规范写作方法。</li>
+</ol>
+<h4 id="实验内容">实验内容</h4>
+<figure data-type="image" tabindex="5"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311201932267.png" alt="image-20231120193217227" loading="lazy"></figure>
+<p>假设载波频率为f<sub>c</sub>（单位：Hz），码元传输速率为R<sub>B</sub>（单位：Baud），码元持续时间为T<sub>s</sub>（单位：s）</p>
+<ol>
+<li>产生长度为100的随机二进制码元序列。</li>
+<li>若f<sub>c</sub>= 10R<sub>B</sub>，画出采样率为100Sample/T<sub>s</sub>（即100个样点/码元持续时间）的BPSK调制波形（前10个码元）及其功率谱。</li>
+<li>相干解调时假设收发载波频率相同均为f<sub>c</sub>= 10R<sub>B</sub>，初相位均为0，画出x(t)的波形，假设低通滤波器的冲激响应为连续10个1（其余为0），画出滤波器下的y(t)及判决输出（前10个码元）。</li>
+<li>相干解调时假设收发载波频率相同均为f<sub>c</sub>= 10RB，发端初相为0，接收端初相位为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span></span></span></span>，画出x(t)的波形，假设低通滤波器的冲激响应为连续10个1（其余为0），画出此滤波器下的y(t)及判决输出（前10个码元）。</li>
+<li>采用DPSK及延时差分相干解调，载波频率为fc= 10RB，试画出a, b, c, d点的波形（前10个码元）。</li>
+</ol>
+<figure data-type="image" tabindex="6"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311201932939.png" alt="image-20231120193253895" loading="lazy"></figure>
+<h2 id="ii基本原理算法概述">Ⅱ基本原理/算法概述</h2>
+<ol>
+<li>调用randi函数产生随机二进制码元序列</li>
+<li>调用periodogram函数计算功率谱。</li>
+<li>使用乘法器进行调制，使用filter函数进行低通滤波。</li>
+<li>在3的基础上改变接收端载波初相，并对调判决条件。</li>
+<li>对信号进行2DBSK编码并调制，再根据差分相干解调特性绘出各点波形。</li>
+</ol>
+<h2 id="iii编程实现概述">Ⅲ编程实现概述</h2>
+<ol>
+<li>
+<p>编程结果如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 100;%信号长度
+data = randi([0,1],N,1);%生成随机的二进制数据
+sum_data = sum(data);
+disp('序列中1的个数为：');
+disp(sum_data)
+</code></pre>
+</li>
+<li>
+<p>编程结果如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 100;%信号长度
+M = 10;%截取长度
+L = 100;%每个码元采样次数
+fc = 10000;%载波频率（自拟）
+RB = fc/10;%码元传输速率
+Ts = 1/RB;%码元宽度
+dt = Ts/L;%采样间隔
+Fs = 1/dt;%采样频率
+TotalT=M*Ts;%总时间
+t=0:dt:TotalT-dt;%时间
+nfft = 1000;  %fft采样点数
+zb=sin(2*pi*fc*t);%载波
+%%基带信号产生
+data = randi([0,1],N,1);%生成随机的二进制数据
+wave = data(1:M)';
+
+fz = ones(1,L);
+x = wave.*fz';%将原来wave的第一行复制L次，称为L*M的矩阵
+
+base = reshape(x,1,L*M);%产生单极性不归零矩形脉冲波形，将刚得到的L*M矩阵，按列重新排列形成1*(L*M)的矩阵
+
+send_signal = (base-1/2)*2;%转化成双极性不归零序列
+
+%%BPSK基带调制   
+bpsk_signal = send_signal.*zb;
+%%输入信号波形
+subplot(221);
+plot(t,send_signal,'LineWidth',2);%绘制双极性不归零序列波形
+title('双极性不归零序列波形');
+axis([0,TotalT,-1.1,1.1]);
+xlabel('时间/s');
+ylabel('幅度');
+%%BPSK调制波形
+subplot(223);
+plot(t,bpsk_signal,'LineWidth',1);%绘制双极性不归零序列波形
+title('BPSK调制波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-1.1,1.1]);
+%%功率谱
+window = boxcar(length(bpsk_signal));  %矩形窗
+[psd1,f] = periodogram(bpsk_signal,window,nfft,Fs);
+psd1 = psd1 / max(psd1);
+subplot(2,2,4);
+plot(f,psd1);
+title('周期图法求功率谱');
+grid on
+</code></pre>
+</li>
+<li>
+<p>编程结果如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 100;%信号长度
+M = 10;%截取长度
+L = 100;%每个码元采样次数
+fc = 10000;%载波频率（自拟）
+RB = fc/10;%码元传输速率
+Ts = 1/RB;%码元宽度
+dt = Ts/L;%采样间隔
+Fs = 1/dt;%采样频率
+TotalT=M*Ts;%总时间
+t=0:dt:TotalT-dt;%时间
+nfft = 1000;  %fft采样点数
+zb=cos(2*pi*fc*t);%载波
+%%基带信号产生
+data = randi([0,1],N,1);%生成随机的二进制数据
+wave = data(1:M)';
+
+fz = ones(1,L);
+x1 = wave.*fz';%将原来wave的第一行复制L次，称为L*M的矩阵
+
+base = reshape(x1,1,L*M);%产生单极性不归零矩形脉冲波形，将刚得到的L*M矩阵，按列重新排列形成1*(L*M)的矩阵
+
+send_signal = (base-1/2)*2;%转化成双极性不归零序列
+
+%%BPSK基带调制   
+bpsk_signal = send_signal.*zb;
+
+%%BPSK相干解调   
+x = bpsk_signal.*zb;
+
+%%低通滤波
+h = zeros(1,L*M);
+h(1:10) = 1;
+y = conv(x,h);
+y1 = y(1:L*M);
+
+%%采样判决
+yo = y1;
+for i=1:L*M
+    if yo(i)&gt;0
+        yo(i) = 1;
+    else
+        yo(i) = 0;
+    end
+end
+%%输入信号波形
+subplot(321);
+plot(t,send_signal,'LineWidth',2);%绘制双极性不归零序列波形
+title('双极性不归零序列波形');
+axis([0,TotalT,-1.1,1.1]);
+xlabel('时间/s');
+ylabel('幅度');
+%%BPSK调制波形
+subplot(322);
+plot(t,bpsk_signal,'LineWidth',1);
+title('BPSK调制波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-1.1,1.1]);
+%%x(t)波形
+subplot(323);
+plot(t,x,'LineWidth',1);
+title('x(t)波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-1.1,1.1]);
+%%y(t)波形
+subplot(324);
+plot(t,y1,'LineWidth',2);
+title('y(t)波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-5.5,5.5]);
+%%采样判决
+subplot(325);
+plot(t,yo,'LineWidth',2);
+title('采样判决');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-0.1,1.1]);
+</code></pre>
+</li>
+<li>
+<p>只需在题3代码的基础上将接收端载波初相调整为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span></span></span></span>，并将判决条件对调即可。</p>
+</li>
+<li>
+<p>代码如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 100;%信号长度
+M = 10;%截取长度
+L = 100;%每个码元采样次数
+fc = 10000;%载波频率（自拟）
+RB = fc/10;%码元传输速率
+Ts = 1/RB;%码元宽度
+dt = Ts/L;%采样间隔
+Fs = 1/dt;%采样频率
+TotalT=M*Ts;%总时间
+t=0:dt:TotalT-dt;%时间
+nfft = 1000;  %fft采样点数
+zb=cos(2*pi*fc*t);%载波
+%%基带信号产生
+data = randi([0,1],N,1);%生成随机的二进制数据
+
+%%BDPSK编码
+bdpsk = data;
+for i = 1:N
+    if (i == 1)%初始bn-1设为0
+        bdpsk(i) = mod(bdpsk(i) + 0, 2);
+    else
+        bdpsk(i) = mod(bdpsk(i) + bdpsk(i-1), 2);
+    end
+end
+wave1 = data(1:M)';
+fz = ones(1,L);
+x1 = wave1.*fz';%将原来wave的第一行复制L次，称为L*M的矩阵
+base = reshape(x1,1,L*M);%产生单极性不归零矩形脉冲波形，将刚得到的L*M矩阵，按列重新排列形成1*(L*M)的矩阵
+send_signal = (base-1/2)*2;%转化成双极性不归零序列
+%%BDPSK基带调制
+wave2 = bdpsk(1:M)';
+fz2 = ones(1,L);
+x2 = wave2.*fz';
+bdpsk_send = reshape(x2,1,L*M);
+bdpsk_send = (bdpsk_send-1/2)*2;
+bdpsk_signal = bdpsk_send.*zb;
+
+%%BPSK差分相干解调
+bdpsk_signal_cf = -ones(1,L*M).*zb;
+bdpsk_signal_cf(1+L:L*M) = bdpsk_signal(1:L*M-L);
+c = bdpsk_signal.*bdpsk_signal_cf;
+
+%%低通滤波
+h = zeros(1,L*M);
+h(1:10) = 1;
+d = conv(c,h);
+d1 = d(1:L*M);
+
+%%抽样判决
+yo = d1;
+for i=1:L*M
+    if yo(i)&lt;0
+        yo(i) = 1;
+    else
+        yo(i) = 0;
+    end
+end
+%%输入信号波形
+subplot(421);
+plot(t,send_signal,'LineWidth',2);%绘制双极性不归零序列波形
+title('基带信号波形');
+axis([0,TotalT,-1.1,1.1]);
+xlabel('时间/s');
+ylabel('幅度');
+%%相对码
+subplot(422);
+plot(t,bdpsk_send,'LineWidth',2);
+title('相对码波形');
+axis([0,TotalT,-1.1,1.1]);
+xlabel('时间/s');
+ylabel('幅度');
+%%a点波形
+subplot(423);
+plot(t,bdpsk_signal,'LineWidth',1);
+title('a点波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-1.1,1.1]);
+%%b点波形
+subplot(424);
+plot(t,bdpsk_signal_cf,'LineWidth',1);
+title('b点波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-1.1,1.1]);
+%%c点波形
+subplot(425);
+plot(t,c,'LineWidth',1);
+title('c点波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-1.1,1.1]);
+%%d点波形
+subplot(426);
+plot(t,d1,'LineWidth',2);
+title('d点波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-5.5,5.5]);
+%%e点波形
+subplot(427);
+plot(t,yo,'LineWidth',2);
+title('e点波形（抽样判决）');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-0.1,1.1]);
+</code></pre>
+</li>
+</ol>
+<h2 id="iv仿真结果和分析">Ⅳ仿真结果和分析</h2>
+<ol>
+<li>
+<p>运行结果为：</p>
+<pre><code>序列中1的个数为：
+    50
+
+&gt;&gt; 
+</code></pre>
+</li>
+<li>
+<p>运行结果为：</p>
+<figure data-type="image" tabindex="7"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202249433.png" alt="image-20231120224956237" loading="lazy"></figure>
+<p>观察到已将基带信号转换为2PSK编码 形式。</p>
+</li>
+<li>
+<p>运行结果为：</p>
+<figure data-type="image" tabindex="8"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311222049237.png" alt="image-20231122204947117" loading="lazy"></figure>
+<p>观察到x(t)波形无法到0，y(t)波形有轻微波动，推测为采样影响。</p>
+</li>
+<li>
+<p>运行结果为：</p>
+<figure data-type="image" tabindex="9"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311222050890.png" alt="image-20231122205041665" loading="lazy"></figure>
+</li>
+<li>
+<p>运行结果如下：</p>
+<figure data-type="image" tabindex="10"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311222140941.png" alt="image-20231122214013702" loading="lazy"></figure>
+<p>c、d点波形与基带信号相反，因此在抽样判决的时候反向变换，解调出基带信号。</p>
+</li>
+</ol>
+<h2 id="v结论">Ⅴ结论</h2>
+<ol>
+<li>仿真调用randi函数实现了产生随机二进制码元序列</li>
+<li>仿真调用periodogram函数实现了计算功率谱。</li>
+<li>仿真使用乘法器进行调制，使用filter函数，实现了低通滤波。</li>
+<li>仿真在3的基础上改变接收端载波初相，并对调判决条件，实现了题目要求。</li>
+<li>仿真对信号进行2DBSK编码并调制，再根据差分相干解调特性绘出各点波形。并观察到解调信号在经过相乘器后，得到的信号与基带信号相反，于是在抽样判决中反向判决，实现解调出基带信号。</li>
+</ol>
+<h2 id="参考文献">参考文献</h2>
+<p>[1]Discrete Signals and Systems with MATLAB®[S].</p>
+<p>[2]Digital Signal Processing: A Primer With MATLAB[S].</p>
+<p>[3]Fundamentals of Graphics Using MATLAB[S].</p>
+
+          </div>
+          <div class="toc-container">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#i%E7%AE%80%E4%BB%8B">Ⅰ简介</a>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86%E7%AE%80%E4%BB%8B">背景知识简介</a></li>
+<li><a href="#%E4%BD%9C%E4%B8%9A%E7%9B%AE%E6%A0%87">作业目标</a>
+<ul>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84">实验目的</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#ii%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0">Ⅱ基本原理/算法概述</a></li>
+<li><a href="#iii%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%A6%82%E8%BF%B0">Ⅲ编程实现概述</a></li>
+<li><a href="#iv%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C%E5%92%8C%E5%88%86%E6%9E%90">Ⅳ仿真结果和分析</a></li>
+<li><a href="#v%E7%BB%93%E8%AE%BA">Ⅴ结论</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE">参考文献</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/shi-yong-di-san-fang-gong-ju-jin-yong-windows-zi-dong-geng-xin-he-an-quan-zhong-xin-de-fang-fa/">下一篇</a>
+          </div>
+        </div>
+        
+        
+        <div class="prev-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/juan-ji-ma-de-bian-yi-ma-yu-xing-neng-fen-xi/">上一篇</a>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://Ge-Ju.github.io/atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://Ge-Ju.github.io/media/scripts/jquery.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/browser.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/breakpoints.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/util.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/main.js"></script>
+  
+  <script src="https://Ge-Ju.github.io/media/scripts/prism.js"></script>
+  <script>
+    Prism.highlightAll();
+  </script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>

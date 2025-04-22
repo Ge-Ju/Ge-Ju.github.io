@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="这世界并不完美，但正合我意。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>心电信号心率检测方法 | Ge-Ju</title>
+<link rel="shortcut icon" href="https://Ge-Ju.github.io/favicon.ico?v=1745331734893">
+<link rel="stylesheet" href="https://Ge-Ju.github.io/styles/main.css">
+
+
+  <link rel="canonical" href="https://Ge-Ju.github.io/post/xin-dian-xin-hao-xin-lu-jian-ce-fang-fa/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="实验内容
+心电信号（EEG）：心电是心脏心肌细胞电活动的综合反映，心电的产生与心肌细胞的除极和复极过程密不可分。心电信号的生理参数如下：
+
+
+心率：心率是指正常人安静状态下每分钟心跳的次数，也叫安静心率，一般为60~100次/分。
+P波：最..." />
+  <meta name="referrer" content="always" />
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/katex.min.css">
+  <script defer src="https://Ge-Ju.github.io/media/scripts/katex.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/prism.css">
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://Ge-Ju.github.io" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://Ge-Ju.github.io/images/avatar.png?v=1745331734893"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> Ge-Ju </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/gallery" class="menu">
+        相册
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            心电信号心率检测方法
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2025-03-09
+          </time>
+          <span class="read-times">
+            9 min read
+          </span>
+          
+          <a href="https://Ge-Ju.github.io/tag/n6qGbP84Es/" class="post-tags">
+            # 信号与信息处理
+          </a>
+          
+        </div>
+        
+        <img src='https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202503092051469.jpg' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <h2 id="实验内容">实验内容</h2>
+<p>心电信号（EEG）：心电是心脏心肌细胞电活动的综合反映，心电的产生与心肌细胞的除极和复极过程密不可分。心电信号的生理参数如下：</p>
+<!-- more -->
+<ol>
+<li>心率：心率是指正常人安静状态下每分钟心跳的次数，也叫安静心率，一般为60~100次/分。</li>
+<li>P波：最初产生偏离的波被命名为P波，它反映心房除极过程的电位变化，代表两个心房的去极。</li>
+<li>PR间期：从P波开始到QRS复合波开始，它代表心房肌开始除极到心室肌开始除极的时间。正常间期是0.12-2.0秒，测量时从P波的起点到QRS复合波的起点，不管初始是Q波还是R波。它是房室传导时间的一种度量，基线由波的TP段建立（T波末端到下一个P波开始）。</li>
+<li>QRS波群：正常心电图由一系列波群组成，各段波群反映不用阶段的心电信号变化。QRS波群是心室的激活产生的最大的波，它反映心室肌除极过程的电位变化。正常间隔0.08-0.12秒。QRS是广义的代表心室肌的除极波，并不是每一个QRS波群都有Q,R,S三个波，一个单相的负QRS复合波被称为QS波。</li>
+<li>ST-T：ST段是在QRS波群之后，T波以前的一段平线。代表左右心室全部除极完毕到复极开始以前的一段时间。该段在确定病理学上如心肌梗塞（升高）和局部缺血（降低）疾病是很重要的。在正常情况下，它用作测量其他波形幅度的等电势线。T波代表心室肌复极过程引起的电位变化。</li>
+<li>QT间期：代表整个心室肌自开始除极至复极完毕的总时间,体现了心室肌肉激活间期和恢复。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071456524.png" alt="image-20240107145600487" loading="lazy"></figure>
+<p>数据格式：<br>
+<code>ECG.mat</code> 文件是受试平静条件下的两段心电信号，采样率是1000Hz，时间均为4分钟。<br>
+题目要求：</p>
+<ol>
+<li>对心电数据进行fft频谱分析，给出频谱分析图。</li>
+<li>设计高低通数字滤波器，给出高低通滤波器的频率响应。</li>
+<li>滤波后的心电信号，fft频谱分析，并将滤波前后心电信号的波形进行对比。并查看心电信号和噪声所在频段。</li>
+<li>利用时域或频域方法实时估计心率。时域方法，一个时间窗5s钟，寻找心电信号R峰对应的时间点，通过时间差和R峰个数计算心率值，然后移动时间窗，步长为1点，逐点计算心率值，最后绘制随时间变化的心率值曲线。频域方法，一个时间窗5s钟的数据进行fft频谱分析，找出最大峰值对应的频率，根据此信息计算出心率值，然后然后移动时间窗，步长为1点，逐点计算心率值，最后绘制随时间变化的心率值曲线。</li>
+<li>比较时域和频域两种方法的差异。</li>
+</ol>
+<h2 id="实验原理">实验原理</h2>
+<h3 id="设计方案">设计方案</h3>
+<p>首先加载心电信号，分析其时域波形和频谱，然后设计一个高通滤波器和一个低通滤波器，对信号进行滤波。找到信号的R峰，使用时域法时，可以算每隔10个R峰需要多少时间，也可以算一定时间内有多少R峰来估计心率。使用频域法时，将信号按时间窗划分，对信号进行FFT，得到频谱，找到频谱中幅值中最大的点对应的频率，由此估算心率。</p>
+<h3 id="实现方法">实现方法</h3>
+<p>设计高通滤波和低通滤波具体如下：</p>
+<pre><code class="language-matlab">% 低通滤波器
+fs = 1000;  % 采样频率
+fc = 45;  % 低通滤波器低频截止频率
+order = 200; % 滤波器阶数
+t = 0:0.001:240-0.001;%时间向量
+f_norm = fc / (fs/2);
+b = fir1(order, f_norm,&quot;low&quot;);
+</code></pre>
+<pre><code class="language-matlab">% 高通滤波器
+fs = 1000;  % 采样频率
+fc = 0.5;  % 低通滤波器低频截止频率
+order = 200; % 滤波器阶数
+t = 0:0.001:240-0.001;%时间向量
+f_norm = fc / (fs/2);
+b = fir1(order, f_norm,&quot;high&quot;);
+</code></pre>
+<p>为了更好地滤除噪声，在高低通滤波器中耦合高斯滤波器。</p>
+<p>高斯滤波器设计如下：</p>
+<pre><code class="language-matlab">%高斯滤波
+sigma = 1;%高斯函数标准差
+r = 10;%高斯模板大小
+% 生成一维高斯滤波模板
+GaussTemp = ones(1,r*2-1);
+for i=1 : r*2-1
+    GaussTemp(i) = exp(-(i-r)^2/(2*sigma^2))/(sigma*sqrt(2*pi));
+end
+</code></pre>
+<pre><code class="language-matlab">% 高斯滤波
+y_filted01 = y01;
+y_filted02 = y02;
+for k = r : length(y01)-r
+    y_filted01(k) = y01(k-r+1 : k+r-1)*GaussTemp';
+    y_filted02(k) = y02(k-r+1 : k+r-1)*GaussTemp';
+end
+</code></pre>
+<p>对滤波后的时域信号，找到其R峰值，用<code>findpeaks</code>函数实现，具体如下：</p>
+<pre><code class="language-matlab">RSF=a_2n2;
+Threshold = (max(RSF) - min(RSF))*0.7 + min(RSF);
+[~,R_locs]=findpeaks(RSF,'MinPeakDistance', 500,'MinPeakHeight',Threshold);
+R_locs = R_locs/1000;%坐标转化为秒
+</code></pre>
+<p>即设计阈值为峰峰值的0.7，并设计R峰步长为0.5s.</p>
+<p>当以每10个R峰为一个窗口估算心率：</p>
+<pre><code class="language-matlab">%心跳次数窗测心率
+newFig = figure;
+heart_r=(R_locs(11:length(R_locs))-R_locs(1:length(R_locs)-10)).^(-1)*10*60;
+x=(1:length(heart_r))*240/length(heart_r);
+plot(x,heart_r)
+ylabel('心率(次/分钟)')
+xlabel('t/s')
+title('时域心跳次数窗')
+</code></pre>
+<p>当以一定时间为窗口，估计心率：</p>
+<pre><code class="language-matlab">% 时间窗心率
+newFig = figure;
+for i=1:(240-cc)/bc
+    edges = [-inf bc*i cc+bc*i inf];
+    counts = histcounts(R_locs, edges);
+    heart_r2(i) = counts(2)/cc*60;
+end
+x2=(1:length(heart_r2))*(240-cc)/length(heart_r2);
+plot(x2,movmean(heart_r2,3))%滑动平均
+ylabel('心率(次/分钟)');
+xlabel('t/s');
+title('时域时间窗');
+</code></pre>
+<p>在绘图过程中加入滑动平均使曲线更平滑。</p>
+<p>需要注意的是，采用时间窗估算心率时，若时间窗太短，会导致心率波动很大。</p>
+<p>在频域法中，将信号按时间窗划分，对信号进行FFT，得到频谱，找到频谱中幅值中最大的点对应的频率，由此估算心率。</p>
+<pre><code class="language-matlab">RSF=y_lb01;
+N = cc*1000;
+f = (0:N-1)*1000/N;%频率向量
+newFig = figure;
+for i=1:(240-cc)/bc
+    X = fft(RSF((i-1)*bc*1000+1:(i-1)*bc*1000+cc*1000));
+    X = abs(X);
+    [~,locs] = max(X(round(0.5/1000*length(X)):3/1000*length(X)));
+    locs = locs + round(0.5/1000*length(X))-1;
+    %[~,locs] = max(X);
+    locs = f(locs);
+    heart_r(i) = locs*60;
+end
+x=(1:length(heart_r))*(240-cc)/length(heart_r);
+plot(x,movmean(heart_r,bc*20));%滑动平均
+ylabel('心率(次/分钟)');
+xlabel('t/s');
+title('频域时间窗');
+</code></pre>
+<p>频域法受噪声影响较大，效果不佳，本实验还探索了其它方法来改善频域法估算心率结果。</p>
+<h2 id="结果分析">结果分析</h2>
+<p>加载原始信号如下：</p>
+<figure data-type="image" tabindex="2"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071520348.png" alt="image-20240107152027281" loading="lazy"></figure>
+<p>对原始信号进行FFT：</p>
+<figure data-type="image" tabindex="3"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071521376.png" alt="image-20240107152106307" loading="lazy"></figure>
+<p>对信号进行低通滤波，滤波器响应如下：</p>
+<figure data-type="image" tabindex="4"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071521113.png" alt="image-20240107152141048" loading="lazy"></figure>
+<p>滤波后信号如下：</p>
+<figure data-type="image" tabindex="5"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071521963.png" alt="image-20240107152158892" loading="lazy"></figure>
+<p>对低通滤波后的信号进行高通滤波，滤波器响应如下：</p>
+<figure data-type="image" tabindex="6"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071522454.png" alt="image-20240107152232399" loading="lazy"></figure>
+<p>滤波后信号如下：</p>
+<figure data-type="image" tabindex="7"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071522668.png" alt="image-20240107152251594" loading="lazy"></figure>
+<p>用时域的两种方法得到的心率如下：</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071523936.png" alt="image-20240107152343863" loading="lazy"></th>
+<th><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071523279.png" alt="image-20240107152351227" loading="lazy"></th>
+</tr>
+</thead>
+</table>
+<p>可以发现两种方法得到的结果基本一致。</p>
+<p>使用频域法得到的心率如下：</p>
+<figure data-type="image" tabindex="8"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071526890.png" alt="image-20240107152631773" loading="lazy"></figure>
+<p>对比可以发现，采用频域法和采用时域法估计心率基本一致，但是频域法估计心率没有时域法精细。</p>
+<p>同时，在使用频域法时，如果时间窗过短，如选取时间窗为5s，得到结果如下：</p>
+<figure data-type="image" tabindex="9"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071528868.png" alt="image-20240107152831814" loading="lazy"></figure>
+<p>此时可以发现估计心率波动很大，且受噪声干扰。因为噪声太大，在实现频域法估计时，本实验将通带限制在1-3Hz，才能得出与时域法相似的结果。</p>
+<p>为了进一步消除噪声影响，本实验探索将时域信号进行矫正，即将时域的R峰化为单位冲激，其余值归零，然后再对其进行FFT用频域法估算心率，时域矫正信号如下：</p>
+<figure data-type="image" tabindex="10"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071532077.png" alt="image-20240107153204001" loading="lazy"></figure>
+<p>校正后频域法得到的心率如下：</p>
+<figure data-type="image" tabindex="11"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071532155.png" alt="image-20240107153244092" loading="lazy"></figure>
+<p>可以发现，进行时域矫正后，即便不用强制限制通带为1-3Hz，也能得到与时域法相近的心率，但是整体心率值偏高10左右。</p>
+<p>对比频域法和时域法，可以发现时域法估计更精确，响应更迅速，干扰也更少。但这是在心电信号比较良好的情况下，相信在心电信号R峰不明显，混合多种噪声的情况下频域法有其发挥空间。</p>
+
+          </div>
+          <div class="toc-container">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%8E%9F%E7%90%86">实验原理</a>
+<ul>
+<li><a href="#%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88">设计方案</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95">实现方法</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90">结果分析</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/nao-dian-erp-xin-hao-de-ti-qu-fang-fa/">下一篇</a>
+          </div>
+        </div>
+        
+        
+        <div class="prev-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/kong-yu-lu-bo-qi-she-ji/">上一篇</a>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://Ge-Ju.github.io/atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://Ge-Ju.github.io/media/scripts/jquery.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/browser.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/breakpoints.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/util.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/main.js"></script>
+  
+  <script src="https://Ge-Ju.github.io/media/scripts/prism.js"></script>
+  <script>
+    Prism.highlightAll();
+  </script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>

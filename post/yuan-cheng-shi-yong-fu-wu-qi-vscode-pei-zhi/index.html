@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="这世界并不完美，但正合我意。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>远程使用服务器+VScode配置 | Ge-Ju</title>
+<link rel="shortcut icon" href="https://Ge-Ju.github.io/favicon.ico?v=1745331734893">
+<link rel="stylesheet" href="https://Ge-Ju.github.io/styles/main.css">
+
+
+  <link rel="canonical" href="https://Ge-Ju.github.io/post/yuan-cheng-shi-yong-fu-wu-qi-vscode-pei-zhi/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="VScode设置
+安装插件Remote Development即可
+服务器上操作
+以Ubuntu18.04下安装配置SSH服务为例：
+安装SSH服务（已安装可跳过）
+安装ssh工具
+
+
+打开终端键入如下命令：
+apt-get update
+..." />
+  <meta name="referrer" content="always" />
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/katex.min.css">
+  <script defer src="https://Ge-Ju.github.io/media/scripts/katex.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/prism.css">
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://Ge-Ju.github.io" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://Ge-Ju.github.io/images/avatar.png?v=1745331734893"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> Ge-Ju </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/gallery" class="menu">
+        相册
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            远程使用服务器+VScode配置
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2025-04-22
+          </time>
+          <span class="read-times">
+            6 min read
+          </span>
+          
+          <a href="https://Ge-Ju.github.io/tag/jwwVVdr7p/" class="post-tags">
+            # 实用技巧
+          </a>
+          
+        </div>
+        
+        <img src='https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202504222126532.jpg' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <h2 id="vscode设置">VScode设置</h2>
+<p>安装插件<code>Remote Development</code>即可</p>
+<h2 id="服务器上操作">服务器上操作</h2>
+<p>以Ubuntu18.04下安装配置SSH服务为例：</p>
+<h3 id="安装ssh服务已安装可跳过">安装SSH服务（已安装可跳过）</h3>
+<h4 id="安装ssh工具">安装ssh工具</h4>
+<ol>
+<li>
+<p>打开终端键入如下命令：</p>
+<pre><code>apt-get update
+</code></pre>
+<pre><code>apt-get install openssh-server
+</code></pre>
+</li>
+<li>
+<p>选择Y继续执行</p>
+</li>
+</ol>
+<h4 id="启动ssh服务">启动SSH服务</h4>
+<ol>
+<li>
+<p>键入以下命令</p>
+<pre><code>/etc/init.d/ssh start
+</code></pre>
+<p>重启命令与关闭命令如下：</p>
+<pre><code>/etc/init.d/ssh restart   #重启SSH服务
+/etc/init.d/ssh stop      #关闭SSH服务
+</code></pre>
+</li>
+<li>
+<p>查看进程，检查是否启动成功，键入如下命令：</p>
+<pre><code>ps -e | grep sshd
+</code></pre>
+<p>有了进程才能进行SSH服务的使用。</p>
+</li>
+</ol>
+<h4 id="配置root用户ssh服务">配置root用户SSH服务</h4>
+<p>Ubuntu中SSH服务安装完成后查看是否允许root用户登陆，若不允许则无法远程登陆root用户，需要修改配置</p>
+<ol>
+<li>
+<p>首先，打开“/etc/ssh/sshd_config”，键入以下命令：</p>
+<pre><code>gedit /etc/ssh/sshd_config
+</code></pre>
+</li>
+<li>
+<p>查看是否有“PermitRootLogin yes”，没有添加即可，完成后保存退出</p>
+</li>
+</ol>
+<h3 id="确定服务器的ip地址">确定服务器的IP地址</h3>
+<p>如果用的是虚拟机，可以用这2个命令查看本地IP地址：</p>
+<pre><code>ip addr
+</code></pre>
+<p>和</p>
+<pre><code>ifconfig
+</code></pre>
+<p>后者可能需要安装工具，安装命令如下：</p>
+<pre><code>sudo apt install net-tools -y
+</code></pre>
+<h2 id="使用vscode远程连接到服务器">使用VSCode远程连接到服务器</h2>
+<p>假设地址为<code>192.168.132.134</code>，用户名为<code>tkk</code>从Windows的VSCode连接</p>
+<ol>
+<li>点击左下角图标</li>
+<li>选择<code>Connect Current Window to Host...</code></li>
+<li>选择<code>Add New SSH Host</code></li>
+<li>命令格式：<code>ssh 用户名@地址</code>或者<code>ssh 用户名@地址 -端口号</code>,如<code>ssh tkk@192.168.132.134</code></li>
+<li>默认选项即可</li>
+<li>看到右下角的弹窗Host added，添加完成！</li>
+<li>选中刚才添加的HOST</li>
+<li>选择Linux，选择Continue</li>
+<li>最后一步！输入密码！回车！结束！</li>
+</ol>
+<h2 id="实现免密码登录">实现免密码登录</h2>
+<p>由于每次切换目录都要输入密码，所以使用公钥登录的方法</p>
+<h3 id="windows生成公钥">Windows生成公钥</h3>
+<p>私钥和公钥在目录<code>C:\Users\用户名\.ssh</code><br>
+分别是<code>id_rsa</code>和<code>id_rsa.pub</code></p>
+<p>若已有可以不用创建，直接修改</p>
+<ol>
+<li>
+<p>打开CMD</p>
+</li>
+<li>
+<p>输入命令：</p>
+<pre><code>ssh-keygen
+</code></pre>
+</li>
+<li>
+<p>三次回车即可生成无密码公钥，中间有需要确认的同意即可（三次回车及不设置用户侧密码，如果想要用自己的密码，可以在两次回车后设置）</p>
+</li>
+<li>
+<p>到目录<code>C:\Users\用户名\.ssh</code>查看公钥</p>
+<p>记事本打开<code>id_rsa.pub</code></p>
+<p>全部复制</p>
+</li>
+</ol>
+<h3 id="服务器侧操作">服务器侧操作</h3>
+<ol>
+<li>
+<p>检查是否有<code>.ssh</code>文件夹，输入以下命令：</p>
+<pre><code>cd ~
+ls -a # .ssh是隐藏的，需要用-a才能看到
+</code></pre>
+<p>如果有则下一步，如果没有则输入以下命令创建：</p>
+<pre><code>cd ~
+mkdir .ssh
+</code></pre>
+</li>
+<li>
+<p>创建<code>authorized_keys</code>文件</p>
+<p>如果已有则修改该文件（如果没有，vim会自动创建该文件）</p>
+<pre><code>vim ~/.ssh/authorized_keys
+</code></pre>
+<p>vim操作：</p>
+<ol>
+<li>按<code>i</code>进入编辑模式</li>
+<li>修改完毕，按<code>Esc</code>，输入<code>:wq</code>保存并退出</li>
+</ol>
+<p>将刚才复制的公钥粘贴到这里（先按<code>i</code>进入编辑模式，右键<code>Paste</code>），按<code>Esc</code>，输入<code>:wq</code>保存退出</p>
+</li>
+<li>
+<p>回到Windows检查是否成功，即验证远程连接是否还需要密码</p>
+</li>
+</ol>
+<h2 id="常用指令">常用指令</h2>
+<h3 id="断联运行程序">断联运行程序</h3>
+<p>通常我们在生产环境中运行一些项目时需要将程序不间断的运行在服务器上，并且将<a href="https://so.csdn.net/so/search?q=%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6&amp;spm=1001.2101.3001.7020">日志文件</a>打印到某个文件中，直到程序运行结束</p>
+<p>对于 .py 文件，在对应路径下运行远程终端命令行指令：</p>
+<pre><code>nohup python -u xxx.py &gt;log.txt 2&gt;&amp;1 &amp;
+</code></pre>
+<p>对于 .sh脚本文件，在对应路径下运行远程终端命令行指令：</p>
+<pre><code>nohup sh xxx.sh &gt;log.txt 2&gt;&amp;1 &amp;
+</code></pre>
+<p><code>nohup</code>:使得程序不会被中断信号所干扰，当本地机断开与远程服务器的连接后仍然能保持程序运行。<br>
+<code>&amp;</code>:加在命令行末尾时起到使程序后台运行的作用<br>
+<code>2&gt;&amp;1</code>:重定向命令，2表示错误输出，1表示标准输出，使用该命令能够使报错信息也输出到标准输出流中，便于查看程序运行日志</p>
+<p><code>&gt;log.txt </code>: 使打印的日志信息输出到当前目录的<code>log.txt</code>中</p>
+<h3 id="硬件相关">硬件相关</h3>
+<p>使用命令：</p>
+<pre><code>nvidia-smi
+</code></pre>
+<p>可以检查服务器中显卡的使用情况以及驱动的版本</p>
+<p>使用命令：</p>
+<pre><code>htop
+</code></pre>
+<p>可以显示系统中运行的所有进程，实时更新它们的资源使用情况。包括：</p>
+<ul>
+<li><strong>PID</strong>：进程的ID</li>
+<li><strong>用户</strong>：进程所属的用户</li>
+<li><strong>CPU 和内存使用</strong>：显示每个进程的 CPU 和内存占用情况</li>
+<li><strong>进程状态</strong>：如运行、睡眠等</li>
+<li><strong>命令</strong>：启动进程的命令行</li>
+</ul>
+<h3 id="进程相关">进程相关</h3>
+<p>使用命令：</p>
+<pre><code>ps aux | grep xxx.py
+</code></pre>
+<p>可以检查所有正在运行的名为<code>xxx.py</code>程序文件</p>
+<p>使用命令：</p>
+<pre><code>kill 86342
+</code></pre>
+<p>可以停止进程号为86342的进程</p>
+<pre><code>kill -9 86342
+</code></pre>
+<p>该命令可以强制停止相应进程</p>
+<h3 id="文件与目录管理">文件与目录管理</h3>
+<ul>
+<li>
+<p><strong>查看当前路径</strong>：</p>
+<pre><code>bashCopy Codepwd
+</code></pre>
+</li>
+<li>
+<p><strong>列出目录内容</strong>：</p>
+<pre><code>bashCopy Codels
+ls -l  # 显示详细信息
+ls -a  # 显示隐藏文件
+</code></pre>
+</li>
+<li>
+<p><strong>创建目录</strong>：</p>
+<pre><code>bashCopy Codemkdir directory_name
+</code></pre>
+</li>
+<li>
+<p><strong>创建多级目录</strong>：</p>
+<pre><code>bashCopy Codemkdir -p path/to/directory
+</code></pre>
+</li>
+<li>
+<p><strong>进入目录</strong>：</p>
+<pre><code>bashCopy Codecd directory_name
+</code></pre>
+</li>
+<li>
+<p><strong>复制文件或目录</strong>：</p>
+<pre><code>bashCopy Codecp source_file destination
+cp -r source_directory destination_directory  # 复制目录
+</code></pre>
+</li>
+<li>
+<p><strong>移动文件或目录</strong>：</p>
+<pre><code>bashCopy Codemv source destination
+</code></pre>
+</li>
+<li>
+<p><strong>删除文件或目录</strong>：</p>
+<pre><code>bashCopy Coderm filename
+rm -r directory_name  # 删除目录及其中的内容
+</code></pre>
+</li>
+<li>
+<p><strong>查找文件或目录</strong>：</p>
+<pre><code>bashCopy Codefind /path/to/search -name &quot;filename&quot;
+</code></pre>
+</li>
+<li>
+<p><strong>查看文件内容</strong>：</p>
+<pre><code>bashCopy Codecat filename  # 显示整个文件内容
+less filename  # 分页查看
+more filename  # 分页查看（类似 less）
+tail filename  # 查看文件尾部内容
+tail -f filename  # 实时查看文件更新
+</code></pre>
+</li>
+<li>
+<p><strong>编辑文件</strong>（常用编辑器）：</p>
+<pre><code>bashCopy Codenano filename  # 使用 nano 编辑文件
+vim filename   # 使用 vim 编辑文件
+</code></pre>
+</li>
+</ul>
+<h3 id="文件传输">文件传输</h3>
+<ul>
+<li>
+<p><strong>通过 SCP 复制文件</strong>：</p>
+<pre><code>bashCopy Codescp local_file username@hostname:/path/to/remote/directory
+</code></pre>
+</li>
+<li>
+<p><strong>通过 SFTP 连接并传输文件</strong>：</p>
+<pre><code>bashCopy Codesftp username@hostname
+</code></pre>
+</li>
+</ul>
+
+          </div>
+          <div class="toc-container">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#vscode%E8%AE%BE%E7%BD%AE">VScode设置</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%93%8D%E4%BD%9C">服务器上操作</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85ssh%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%AE%89%E8%A3%85%E5%8F%AF%E8%B7%B3%E8%BF%87">安装SSH服务（已安装可跳过）</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85ssh%E5%B7%A5%E5%85%B7">安装ssh工具</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8ssh%E6%9C%8D%E5%8A%A1">启动SSH服务</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEroot%E7%94%A8%E6%88%B7ssh%E6%9C%8D%E5%8A%A1">配置root用户SSH服务</a></li>
+</ul>
+</li>
+<li><a href="#%E7%A1%AE%E5%AE%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84ip%E5%9C%B0%E5%9D%80">确定服务器的IP地址</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BD%BF%E7%94%A8vscode%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8">使用VSCode远程连接到服务器</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95">实现免密码登录</a>
+<ul>
+<li><a href="#windows%E7%94%9F%E6%88%90%E5%85%AC%E9%92%A5">Windows生成公钥</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BE%A7%E6%93%8D%E4%BD%9C">服务器侧操作</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">常用指令</a>
+<ul>
+<li><a href="#%E6%96%AD%E8%81%94%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F">断联运行程序</a></li>
+<li><a href="#%E7%A1%AC%E4%BB%B6%E7%9B%B8%E5%85%B3">硬件相关</a></li>
+<li><a href="#%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3">进程相关</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86">文件与目录管理</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93">文件传输</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/sui-ji-guo-cheng-de-bao-luo-jian-ce/">下一篇</a>
+          </div>
+        </div>
+        
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://Ge-Ju.github.io/atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://Ge-Ju.github.io/media/scripts/jquery.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/browser.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/breakpoints.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/util.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/main.js"></script>
+  
+  <script src="https://Ge-Ju.github.io/media/scripts/prism.js"></script>
+  <script>
+    Prism.highlightAll();
+  </script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>

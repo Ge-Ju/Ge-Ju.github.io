@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="这世界并不完美，但正合我意。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VR眼动数据的目标识别 | Ge-Ju</title>
+<link rel="shortcut icon" href="https://Ge-Ju.github.io/favicon.ico?v=1745331734893">
+<link rel="stylesheet" href="https://Ge-Ju.github.io/styles/main.css">
+
+
+  <link rel="canonical" href="https://Ge-Ju.github.io/post/vr-yan-dong-shu-ju-de-mu-biao-shi-bie/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="实验内容
+眼动仪是一种能够跟踪测量眼球位置及眼球运动信息的一种设备，在视觉系统、心理学、认知语言学的研究中有广泛的应用。通用设备原理为角膜反射法。
+
+以最基本的桌面式眼动仪为例，由于眼动仪（含摄像机）的位置固定，屏幕光源（被试所看的刺激材料..." />
+  <meta name="referrer" content="always" />
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/katex.min.css">
+  <script defer src="https://Ge-Ju.github.io/media/scripts/katex.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/prism.css">
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://Ge-Ju.github.io" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://Ge-Ju.github.io/images/avatar.png?v=1745331734893"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> Ge-Ju </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/gallery" class="menu">
+        相册
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            VR眼动数据的目标识别
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2025-03-09
+          </time>
+          <span class="read-times">
+            6 min read
+          </span>
+          
+          <a href="https://Ge-Ju.github.io/tag/n6qGbP84Es/" class="post-tags">
+            # 信号与信息处理
+          </a>
+          
+        </div>
+        
+        <img src='https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202503092030441.jpg' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <h2 id="实验内容">实验内容</h2>
+<p>眼动仪是一种能够跟踪测量眼球位置及眼球运动信息的一种设备，在视觉系统、心理学、认知语言学的研究中有广泛的应用。通用设备原理为角膜反射法。</p>
+<!-- more -->
+<p>以最基本的桌面式眼动仪为例，由于眼动仪（含摄像机）的位置固定，屏幕光源（被试所看的刺激材料）的位置也固定、眼球中心位置不变（假设眼球为球状，且头部不动），普尔钦斑的绝对位置并不随眼球的转动而变化。但其相对于瞳孔和眼球的位置则是在不断变化的——比如，当你盯着摄像头时，普尔钦斑就在你瞳孔之间；而当你抬起头时，普尔钦斑就在你的瞳孔下方。这样一来，只要实时定位眼睛图像上的瞳孔和普尔钦斑的位置，计算出角膜反射向量，便能利用几何模型，估算得到用户的视线方向。再基于前期定标过程（即让用户注视电脑屏幕上特定的点）中所建立的用户眼睛特征与电脑屏幕呈现内容之间的关系，眼动仪就能判断出用户究竟在看屏幕上的什么内容了。</p>
+<p>眼动的本质是人注意力资源的主动或被动分配，选择更有用或吸引力的信息。其应用方向有：用户体验与交互研究（网页可用性、移动端可用性、软件可用性、视线交互、游戏可用性研究）、市场研究与消费者调研等。</p>
+<p>实验数据采集分为两个过程，第一个是眼动校准阶段，要求实验参与者依次观看界面上的数字0-9，每个目标1个试次，校准阶段共10个试次。所采集的数据作为参与者的模板数据，用于正式阶段的分类。第二个是正式实验阶段，采集过程连续进行，数据中包含开始和结束的位置索引，每个目标2个试次，共20个试次。本题任务是根据采集的眼动数据实现10个目标的分类。</p>
+<p>利用校准阶段的眼动数据，对正式实验阶段的眼动数据进行分类，并计算目标分类的准确率。眼动数据包括左眼和右眼两部分数据，可参见附件数据包：<code>calib_data.mat</code>文件包含<code>Left_pre_c</code>、<code>Right_pre_c</code>; ——校准阶段预处理后的左右眼数据。<code>online.mat</code>文件包含<code>Left_pre_o</code>、<code>Right_pre_o</code>; ——正式阶段预处理后的左右眼数据。数据维度：试次*特征维度*时域采样点；一个试次对应一个指令(即一个目标)，特征维度为X,Y轴坐标数据，时域采样点为一段时间内的眼动数据。如20*240是指20个试次，一眼XY两轴坐标数据，40个时间点。<br>
+校准阶段的数据标签为[1 2 3 4 5 6 7 8 9 10]，正式实验阶段的数据标签为20个1-10的数值。</p>
+<p>目标分类：</p>
+<ol>
+<li>求正式实验阶段目标分类的准确率，左右眼分别计算分类准确率，然后左右眼融合计算分类准确率（各占50%）</li>
+<li>分析不同时间点10、20、30、40条件下的分类准确率，并画出曲线。</li>
+<li>GUI界面呈现校准阶段10个试次各自的中心位置（XY坐标），以及正式实验阶段20个试次目标分类类别，可表格呈现，包括单左眼、单右眼和左右眼融合的分类结果。另外呈现不同时间点下的分类准确率曲线。</li>
+</ol>
+<h2 id="实验原理">实验原理</h2>
+<h3 id="设计方案">设计方案</h3>
+<p>首先根据校准数据计算出10个试次各自的中心位置，然后将实验阶段20个试次目标与这十个坐标比对，距离最小的即为识别的分类类别，包括单左眼右眼和融合识别分类结果，最后作图得到不同时间点下的分类准确率曲线。</p>
+<h3 id="实现方法">实现方法</h3>
+<p>由于给定数据已经分类，这里不再使用聚类算法，直接对每个分类的数据进行平均计算中心位置，并通过表格表示：</p>
+<pre><code class="language-matlab">%求校准数据均值
+for i=1:10
+    for j=1:2
+        data_l_mean(i,j) = mean(data_l(i,j,:));
+        data_r_mean(i,j) = mean(data_r(i,j,:));
+    end
+end
+handles.lpc_mean = data_l_mean;
+guidata(hObject, handles);
+handles.rpc_mean = data_r_mean;
+guidata(hObject, handles);
+hObject = findobj('Tag', 'text1'); % 获取文本框句柄
+set(hObject, 'String', &quot;校准数据已处理&quot;); % 设置文本框显示结果
+% 创建数据
+data(:,1:2) = data_l_mean;
+data(:,3:4) = data_r_mean;
+% 创建表格
+f = figure;
+uitable(f, 'Data', data, ...
+    'ColumnName', {'左眼x','左眼y','右眼x','右眼y'}, ...
+    'ColumnWidth', {100,100,100,100}, ...
+    'Position', [20,20,500,400]);
+</code></pre>
+<p>通过循环对左右眼数据处理，与校准数据中心点比对，得出识别类别。然后将得出的类别标签与给定的标签进行对比，算出左右眼的准确率，最后给左右眼权重0.5得出融合正确率，步长为1。</p>
+<h2 id="结果分析">结果分析</h2>
+<p>加载校准数据和实验数据后，计算校准点坐标如下：</p>
+<figure data-type="image" tabindex="1"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071417229.png" alt="image-20240107141751165" loading="lazy"></figure>
+<p>随后计算实验数据与这10个校准点的最小距离，得到识别类别。最后算出左右眼识别准确率和融合准去率。</p>
+<figure data-type="image" tabindex="2"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071419039.png" alt="image-20240107141921968" loading="lazy"></figure>
+<p>在本实验中计算准确率是以时间1s为步长，因此准去率曲线连续画出。</p>
+<p>加载给定标签如下：</p>
+<figure data-type="image" tabindex="3"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071420740.png" alt="image-20240107142044680" loading="lazy"></figure>
+<p>对比可以发现，左眼第19组识别错误，右眼全部识别正确。融合正确率如下：</p>
+<figure data-type="image" tabindex="4"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071422838.png" alt="image-20240107142203733" loading="lazy"></figure>
+<p>可以看到，本实验进行目标眼动目标识别达到了一个较高的正确率。</p>
+
+          </div>
+          <div class="toc-container">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%8E%9F%E7%90%86">实验原理</a>
+<ul>
+<li><a href="#%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88">设计方案</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95">实现方法</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90">结果分析</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/vpn-mo-fa/">下一篇</a>
+          </div>
+        </div>
+        
+        
+        <div class="prev-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/nao-dian-erp-xin-hao-de-ti-qu-fang-fa/">上一篇</a>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://Ge-Ju.github.io/atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://Ge-Ju.github.io/media/scripts/jquery.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/browser.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/breakpoints.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/util.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/main.js"></script>
+  
+  <script src="https://Ge-Ju.github.io/media/scripts/prism.js"></script>
+  <script>
+    Prism.highlightAll();
+  </script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>

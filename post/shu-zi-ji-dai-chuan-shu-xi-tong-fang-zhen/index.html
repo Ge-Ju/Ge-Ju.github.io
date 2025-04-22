@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="这世界并不完美，但正合我意。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>数字基带传输系统仿真 | Ge-Ju</title>
+<link rel="shortcut icon" href="https://Ge-Ju.github.io/favicon.ico?v=1745331734893">
+<link rel="stylesheet" href="https://Ge-Ju.github.io/styles/main.css">
+
+
+  <link rel="canonical" href="https://Ge-Ju.github.io/post/shu-zi-ji-dai-chuan-shu-xi-tong-fang-zhen/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="
+Ⅰ简介
+背景知识简介
+AMI编码
+AMI的编码原理：将原始码元的1交替转换成1和-1,0保持不变。
+AMI解码原理：将AMI码元中的1和-1转换成1，0转换成0。
+如果是经过信道后的AMI码元，那么解码之前先要经过低通滤波器，然后抽样判决..." />
+  <meta name="referrer" content="always" />
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/katex.min.css">
+  <script defer src="https://Ge-Ju.github.io/media/scripts/katex.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/prism.css">
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://Ge-Ju.github.io" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://Ge-Ju.github.io/images/avatar.png?v=1745331734893"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> Ge-Ju </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/gallery" class="menu">
+        相册
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            数字基带传输系统仿真
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2023-12-06
+          </time>
+          <span class="read-times">
+            20 min read
+          </span>
+          
+          <a href="https://Ge-Ju.github.io/tag/WKzP_mOFx/" class="post-tags">
+            # 通信原理
+          </a>
+          
+        </div>
+        
+        <img src='https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202312061709453.jpg' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <!-- more -->
+<h2 id="i简介">Ⅰ简介</h2>
+<h3 id="背景知识简介">背景知识简介</h3>
+<p><strong>AMI编码</strong></p>
+<p>AMI的编码原理：将原始码元的1交替转换成1和-1,0保持不变。</p>
+<p>AMI解码原理：将AMI码元中的1和-1转换成1，0转换成0。<br>
+如果是经过信道后的AMI码元，那么解码之前先要经过低通滤波器，然后抽样判决后，恢复出AMI码，然后再进行解码。</p>
+<p><strong>HDB3编码</strong></p>
+<p>HDB3编码的步骤：</p>
+<ol>
+<li>原码中连0的个数小于等于3，则和AMI编码规则一样；</li>
+<li>连0的个数大于3,时，则将4个连0化为一小节，用B00V替代；</li>
+<li>第一个B一般为0，判断V,B之间1的个数，如果为奇数，B为0，如果为偶数，B为B;</li>
+<li>第一个非0数为-1，V和它前面一个非0数极性相同，V,B之间的1从V开始极性交替，B和它前一个非0数极性相反。</li>
+</ol>
+<p>HDB3码解码的步骤：</p>
+<ol>
+<li>判断HDB3码中连0的个数；</li>
+<li>连0的个数为3，并且3个0前后的数极性相同，则将3个0后的数都置0；</li>
+<li>连0的个数为2，并且2个0前后的数极性相同，则将2个0前后的数都置0；</li>
+<li>将+1或者-1都变换成1,0为0。</li>
+</ol>
+<p><strong>功率谱</strong></p>
+<p>信号的功率谱密度描述随机信号的功率在频域随频率的分布。</p>
+<p>利用给定的N个样本数据估计一个平稳随机信号的功率谱密度叫做谱估计，功率谱密度一般简称功率谱。</p>
+<p>谱估计方法分为参数化方法和非参数化方法。非参数化方法又叫经典谱估计，如周期图法、自相关法等，其主要缺点是描述功率谱波动的数字特征方差性能较差，频率分辨率低；而参数化谱估计又叫做现代谱估计，如AR模型法、MA模型法、自回归移动平均模型法（ARMA模型法）等。功率谱的单位是W/Hz,如果做了对数处理10log，就是分贝（dB）。</p>
+<p>经典功率谱估计是截取较长的数据链中的一段作为工作区，相当于将数据加一个矩形窗函数。根据截取的N个样本数据用估计出其功率谱。其中可以利用相关函数法估计功率谱、也可以利用周期图法估计出功率谱。</p>
+<h3 id="作业目标">作业目标</h3>
+<h4 id="实验目的">实验目的</h4>
+<ol>
+<li>掌握数字基带传输系统的基本知识。</li>
+<li>掌握Matlab环境并编写函数实现功能。</li>
+<li>熟悉实验报告的规范写作方法。</li>
+</ol>
+<h4 id="实验内容">实验内容</h4>
+<ol>
+<li>产生一个长为1000的二进制随机序列，“0”的概率为0.7，“1”的概率为0.3。</li>
+<li>对上述数据进行归零AMI编码，脉冲宽度为符号宽度的50%，波形采样率为符号率的8倍，画出前20个符号对应的波形（同时给出前20位信源序列）。</li>
+<li>改用HDB3码，画出前20个符号对应的波形。</li>
+<li>分别对上述1000个符号的波形进行功率谱估计，画出功率谱。</li>
+<li>改变信源“0”的概率，观察AMI码的功率谱变化情况。</li>
+</ol>
+<h2 id="ii基本原理算法概述">Ⅱ基本原理/算法概述</h2>
+<ol>
+<li>调用randsrc函数生成指定概率的随机序列。</li>
+<li>利用一个循环来实现交替编码，然后根据采样率、符号率、占空比等绘制图像。</li>
+<li>在AMI编码的基础上加入间距为4的窗口，判断取代节，然后根据取代节之间的1的个数确定B的取值，然后根据规则确定编码中1和V的极性。最后注意当前信息码序列4个都为0时的特殊情况。</li>
+<li>调用periodogram函数计算功率谱。</li>
+<li>在4的基础上，采用AMI编码，改动0出现的概率即可。</li>
+</ol>
+<h2 id="iii编程实现概述">Ⅲ编程实现概述</h2>
+<ol>
+<li>
+<p>编程实现如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 1000;%信号长度
+data = randsrc(N,1,[0,1;0.7,0.3]);%生成随机的二进制数据
+sum_data = sum(data);
+disp('序列中1的个数为：');
+disp(sum_data)
+</code></pre>
+</li>
+<li>
+<p>编程实现如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 1000;%信号长度
+M = 20;%截取长度
+L = 8;%每个码元采样次数
+Ts = 0.001;%码元宽度
+Rb = 1/Ts;%码元速率
+dt = Ts/L;%采样间隔
+Fs = 1/dt;%采样频率
+D = 0.5;%占空比
+TotalT=M*Ts;%总时间
+t=0:dt:TotalT-dt;%时间
+
+data = randsrc(N,1,[0,1;0.7,0.3]);%生成随机的二进制数据
+sum_data = sum(data);
+disp('序列中1的个数为：');
+disp(sum_data);
+
+wave = data(1:M)';
+disp('前20个序列为：')
+disp(wave);
+%% AMI编码，将原码中的1交替转换成-1和1,0不变
+ami=data;
+a_sign=-1;
+for i=1:N
+    if ami(i)==0
+        continue;
+    elseif ami(i)==1&amp;&amp;a_sign==-1
+        ami(i)=-ami(i);
+        a_sign=1;
+    elseif ami(i)==1&amp;&amp;a_sign==1
+        ami(i)=ami(i);
+        a_sign=-1;
+    end
+end
+fz1 = ones(1,L);%完整采样
+fz2(1:L*D) = ones(1,L*D);
+fz2(L*D+1:L) = zeros(1,L-L*D);%按占空比采样
+x1=wave.*fz1';%将原来wave的第一行复制L次，称为L*M的矩阵
+base=reshape(x1,1,L*M);%产生单极性不归零矩形脉冲波形，将刚得到的L*M矩阵，按列重新排列形成1*(L*M)的矩阵
+
+x2=ami(1:M)'.*fz2';%将原来ami的第一行复制L次，称为L*M的矩阵
+ami_tz=reshape(x2,1,L*M);%将刚得到的L*M矩阵，按列重新排列形成1*(L*M)的矩阵
+%%绘制波形
+figure(1);
+
+subplot(211);
+plot(t,base,'LineWidth',2);%绘制基带码元波形
+title('基带信号波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-0.1,1.1]);
+set(gca,'XTick',0:Ts:TotalT);
+
+subplot(212)
+plot(t,ami_tz,'LineWidth',2);%绘制ami的波形 
+title('AMI信号波形');
+axis([0,TotalT,-1.1,1.1]);
+set(gca,'XTick',0:Ts:TotalT);
+xlabel('时间/s');
+ylabel('幅度');
+</code></pre>
+</li>
+<li>
+<p>编程结果如下：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 1000;%信号长度
+M = 20;%截取长度
+L = 8;%每个码元采样次数
+Ts = 0.001;%码元宽度
+Rb = 1/Ts;%码元速率
+dt = Ts/L;%采样间隔
+Fs = 1/dt;%采样频率
+D = 0.5;%占空比
+TotalT=M*Ts;%总时间
+t=0:dt:TotalT-dt;%时间
+
+data = randsrc(N,1,[0,1;0.7,0.3]);%生成随机的二进制数据
+sum_data = sum(data);
+disp('序列中1的个数为：');
+disp(sum_data);
+
+wave = data(1:M)';
+disp('前20个序列为：')
+disp(wave);
+%% HDB3编码
+hdb3=data;
+count = 0;%计数
+for i=1:N%替换节
+    if hdb3(i) == 0
+        count = count + 1;
+    else
+        count = 0;
+    end
+    if count == 4%取代节0000变为3002
+        hdb3(i) = 2;
+        hdb3(i-3) = 3;
+        count = 0;
+    end
+end
+
+disp('替换替换节后，前20个码为：')
+disp(hdb3(1:20)')
+
+flagB = 1;
+count_1 = 0;
+pV = 0;
+pB = 0;
+
+for i = 1:N
+    if hdb3(1) == 3%前4个都是0
+        hdb3(1) = 1;
+        flagB = 0;
+    end
+    if (hdb3(i) == 3) &amp;&amp; (flagB == 1) %前4个有1，将第一个B置0
+        hdb3(i) = 0;
+        flagB = 0;
+    end
+    
+    if hdb3(i) == 2 %找到前一个取代节的V
+        pV = i;
+    else
+        if hdb3(i) == 3 %找到后一个取代节的B
+            pB = i;
+        end
+    end
+    
+    if(pB &gt; pV)
+        for j = pV+1 : pB-1   %不要将B 和 V的值包含进去
+            count_1 = count_1 + hdb3(j); %计算两个之间 1 的个数
+        end
+        
+        if mod(count_1 , 2) == 1 %奇数个
+            hdb3(pB) = 0;
+        else
+            hdb3(pB) = 1; %偶数个
+        end
+        %将变量归零，等待下一次找两个取代节的成功
+        pV = 0;
+        pB = 0;
+        count_1 = 0;
+    end
+end
+%统一确定极性
+even = 1;  % 用来翻转 1 的极性
+evenV = 0;% 用来翻转 V 的极性
+
+for i = 1:N
+    if hdb3(i) == 1
+        hdb3(i) = -1; %第一个 1 转成 -1 
+        break;
+    end
+end
+
+
+for i = 1:N
+    if hdb3(i) == 1 %将 1 的极性正负翻转
+        if even == 1
+            hdb3(i) = 1;
+        else
+            hdb3(i) = -1;
+        end
+        even = -even;
+    else
+        if hdb3(i) == 2%将V的极性正负翻转同时变回数值1
+            evenV = even;%第一个V的极性与前一个非零符号相同
+            if evenV == 1
+                hdb3(i) = -1;
+            else
+                hdb3(i) = 1;
+            end
+            evenV = -evenV;
+        end
+    end
+end
+
+disp('前20个DH3码为：')
+disp(hdb3(1:20)');
+
+fz1 = ones(1,L);%完整采样
+fz2(1:L*D) = ones(1,L*D);
+fz2(L*D+1:L) = zeros(1,L-L*D);%按占空比采样
+x1=wave.*fz1';%将原来wave的第一行复制L次，称为L*M的矩阵
+base=reshape(x1,1,L*M);%产生单极性不归零矩形脉冲波形，将刚得到的L*M矩阵，按列重新排列形成1*(L*M)的矩阵
+
+x2=hdb3(1:M)'.*fz2';%将原来hdb3的第一行复制L次，称为L*M的矩阵
+hdb3_tz=reshape(x2,1,L*M);%将刚得到的L*M矩阵，按列重新排列形成1*(L*M)的矩阵
+%%绘制波形
+figure(1);
+
+subplot(211);
+plot(t,base,'LineWidth',2);%绘制基带码元波形
+title('基带信号波形');
+xlabel('时间/s');
+ylabel('幅度');
+axis([0,TotalT,-0.1,1.1]);
+set(gca,'XTick',0:Ts:TotalT);
+
+subplot(212)
+plot(t,hdb3_tz,'LineWidth',2);%绘制hdb3的波形 
+title('HD3信号波形');
+axis([0,TotalT,-1.1,1.1]);
+set(gca,'XTick',0:Ts:TotalT);
+xlabel('时间/s');
+ylabel('幅度');
+</code></pre>
+</li>
+<li>
+<p>编程结果如下：</p>
+<p>原码：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 1000;%信号长度
+M = 20;%截取长度
+L = 8;%每个码元采样次数
+Ts = 0.001;%码元宽度
+Rb = 1/Ts;%码元速率
+dt = Ts/L;%采样间隔
+Fs = 1/dt;%采样频率
+D = 0.5;%占空比
+TotalT=N*Ts;%总时间
+t=0:dt:TotalT-dt;%时间
+nfft = 1000;  %fft采样点数
+
+data = randsrc(N,1,[0,1;0.7,0.3]);%生成随机的二进制数据
+sum_data = sum(data);
+disp('序列中1的个数为：');
+disp(sum_data);
+wave = data(1:N)';
+fz1 = ones(1,L);%完整采样
+x1=wave.*fz1';%将原来wave的第一行复制L次，称为L*N的矩阵
+base=reshape(x1,1,L*N);%产生单极性不归零矩形脉冲波形，将刚得到的L*N矩阵，按列重新排列形成1*(L*N)的矩阵
+subplot(2,2,1);
+plot(t,base,'LineWidth',2);
+title('基带信号波形');
+axis([0,TotalT,-1.1,1.1]);
+xlabel('时间/s');
+ylabel('幅度');
+X = fft(base,N*L);
+subplot(2,2,2);
+plot(abs(X))
+title('频谱');
+xlabel('f/Hz'); ylabel('幅值');
+%%功率谱
+window = boxcar(length(base));  %矩形窗
+[psd1,f] = periodogram(base,window,nfft,Fs);
+psd1 = psd1 / max(psd1);
+subplot(2,2,3);
+plot(f,psd1);
+title('周期图法求功率谱');
+grid on
+</code></pre>
+<p>AMI码：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 1000;%信号长度
+M = 20;%截取长度
+L = 8;%每个码元采样次数
+Ts = 0.001;%码元宽度
+Rb = 1/Ts;%码元速率
+dt = Ts/L;%采样间隔
+Fs = 1/dt;%采样频率
+D = 0.5;%占空比
+TotalT=N*Ts;%总时间
+t=0:dt:TotalT-dt;%时间
+nfft = 1000;  %fft采样点数
+
+data = randsrc(N,1,[0,1;0.7,0.3]);%生成随机的二进制数据
+sum_data = sum(data);
+disp('序列中1的个数为：');
+disp(sum_data);
+
+wave = data(1:M)';
+disp('前20个序列为：')
+disp(wave);
+%% AMI编码，将原码中的1交替转换成-1和1,0不变
+ami=data;
+a_sign=-1;
+for i=1:N
+    if ami(i)==0
+        continue;
+    elseif ami(i)==1&amp;&amp;a_sign==-1
+        ami(i)=-ami(i);
+        a_sign=1;
+    elseif ami(i)==1&amp;&amp;a_sign==1
+        ami(i)=ami(i);
+        a_sign=-1;
+    end
+end
+fz2(1:L*D) = ones(1,L*D);
+fz2(L*D+1:L) = zeros(1,L-L*D);%按占空比采样
+x2=ami(1:N)'.*fz2';%将原来ami的第一行复制L次，称为L*N的矩阵
+ami_tz=reshape(x2,1,L*N);%将刚得到的L*N矩阵，按列重新排列形成1*(L*N)的矩阵
+
+subplot(2,2,1);
+plot(t,ami_tz,'LineWidth',2);
+title('AMI信号波形');
+axis([0,TotalT,-1.1,1.1]);
+xlabel('时间/s');
+ylabel('幅度');
+X = fft(ami_tz,N*L);
+subplot(2,2,2);
+plot(abs(X))
+title('频谱');
+xlabel('f/Hz'); ylabel('幅值');
+%%功率谱
+window = boxcar(length(ami_tz));  %矩形窗
+[psd1,f] = periodogram(ami_tz,window,nfft,Fs);
+psd1 = psd1 / max(psd1);
+subplot(2,2,3);
+plot(f,psd1);
+title('周期图法求功率谱');
+grid on
+
+</code></pre>
+<p>HDB3码：</p>
+<pre><code class="language-matlab">clc;
+clear;
+close all
+
+N = 1000;%信号长度
+M = 20;%截取长度
+L = 8;%每个码元采样次数
+Ts = 0.001;%码元宽度
+Rb = 1/Ts;%码元速率
+dt = Ts/L;%采样间隔
+Fs = 1/dt;%采样频率
+D = 0.5;%占空比
+TotalT=N*Ts;%总时间
+t=0:dt:TotalT-dt;%时间
+nfft = 1000;  %fft采样点数
+
+data = randsrc(N,1,[0,1;0.7,0.3]);%生成随机的二进制数据
+sum_data = sum(data);
+disp('序列中1的个数为：');
+disp(sum_data);
+
+wave = data(1:N)';
+%% HDB3编码
+hdb3=data;
+count = 0;%计数
+for i=1:N%替换节
+    if hdb3(i) == 0
+        count = count + 1;
+    else
+        count = 0;
+    end
+    if count == 4%取代节0000变为3002
+        hdb3(i) = 2;
+        hdb3(i-3) = 3;
+        count = 0;
+    end
+end
+
+disp('替换替换节后，前20个码为：')
+disp(hdb3(1:20)')
+
+flagB = 1;
+count_1 = 0;
+pV = 0;
+pB = 0;
+
+for i = 1:N
+    if hdb3(1) == 3%前4个都是0
+        hdb3(1) = 1;
+        flagB = 0;
+    end
+    if (hdb3(i) == 3) &amp;&amp; (flagB == 1) %前4个有1，将第一个B置0
+        hdb3(i) = 0;
+        flagB = 0;
+    end
+    
+    if hdb3(i) == 2 %找到前一个取代节的V
+        pV = i;
+    else
+        if hdb3(i) == 3 %找到后一个取代节的B
+            pB = i;
+        end
+    end
+    
+    if(pB &gt; pV)
+        for j = pV+1 : pB-1   %不要将B 和 V的值包含进去
+            count_1 = count_1 + hdb3(j); %计算两个之间 1 的个数
+        end
+        
+        if mod(count_1 , 2) == 1 %奇数个
+            hdb3(pB) = 0;
+        else
+            hdb3(pB) = 1; %偶数个
+        end
+        %将变量归零，等待下一次找两个取代节的成功
+        pV = 0;
+        pB = 0;
+        count_1 = 0;
+    end
+end
+%统一确定极性
+even = 1;  % 用来翻转 1 的极性
+evenV = 0;% 用来翻转 V 的极性
+
+for i = 1:N
+    if hdb3(i) == 1
+        hdb3(i) = -1; %第一个 1 转成 -1 
+        break;
+    end
+end
+
+
+for i = 1:N
+    if hdb3(i) == 1 %将 1 的极性正负翻转
+        if even == 1
+            hdb3(i) = 1;
+        else
+            hdb3(i) = -1;
+        end
+        even = -even;
+    else
+        if hdb3(i) == 2%将V的极性正负翻转同时变回数值1
+            evenV = even;%第一个V的极性与前一个非零符号相同
+            if evenV == 1
+                hdb3(i) = -1;
+            else
+                hdb3(i) = 1;
+            end
+            evenV = -evenV;
+        end
+    end
+end
+fz2(1:L*D) = ones(1,L*D);
+fz2(L*D+1:L) = zeros(1,L-L*D);%按占空比采样
+x2=hdb3(1:N)'.*fz2';%将原来hdb3的第一行复制L次，称为L*N的矩阵
+hdb3_tz=reshape(x2,1,L*N);%将刚得到的L*N矩阵，按列重新排列形成1*(L*N)的矩阵
+subplot(2,2,1);
+plot(t,hdb3_tz,'LineWidth',2);
+title('HDB3信号波形');
+axis([0,TotalT,-1.1,1.1]);
+xlabel('时间/s');
+ylabel('幅度');
+X = fft(hdb3_tz,N*L);
+subplot(2,2,2);
+plot(abs(X))
+title('频谱');
+xlabel('f/Hz'); ylabel('幅值');
+%%功率谱
+window = boxcar(length(hdb3_tz));  %矩形窗
+[psd1,f] = periodogram(hdb3_tz,window,nfft,Fs);
+psd1 = psd1 / max(psd1);
+subplot(2,2,3);
+plot(f,psd1);
+title('周期图法求功率谱');
+grid on
+</code></pre>
+</li>
+<li>
+<p>使用题4中的AMI编码，改变其中0出现的概率即可。</p>
+</li>
+</ol>
+<h2 id="iv仿真结果和分析">Ⅳ仿真结果和分析</h2>
+<ol>
+<li>
+<p>仿真结果如下：</p>
+<pre><code class="language-matlab">序列中1的个数为：
+   306
+
+&gt;&gt; 
+</code></pre>
+<p>多次实验发现结果在300左右略微浮动，基本符合要求。</p>
+</li>
+<li>
+<p>仿真结果如下：</p>
+<pre><code class="language-matlab">序列中1的个数为：
+      299
+   
+   前20个序列为：
+     列 1 至 10
+   
+        0     0     0     1     0     1     0     1     0     0
+   
+     列 11 至 20
+   
+        1     0     0     0     0     1     0     0     1     0
+   
+   &gt;&gt; 
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202310252105250.png" alt="image-20231025155507712" loading="lazy"></figure>
+<p>观察图像可知，仿真程序实现了AMI归零编码，然而因为抽样率仅为符号率的8倍，因此波形在跳变阶段有一定倾斜，提高抽样率可以消除这个现象。</p>
+</li>
+<li>
+<p>仿真结果如下：</p>
+<figure data-type="image" tabindex="2"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202310251942555.png" alt="image-20231025194247405" loading="lazy"></figure>
+<pre><code class="language-matlab">序列中1的个数为：
+   263
+
+前20个序列为：
+  列 1 至 10
+
+     0     1     0     0     1     0     0     1     1     0
+
+  列 11 至 20
+
+     0     0     0     1     1     0     0     0     1     0
+
+替换替换节后，前20个码为：
+  列 1 至 10
+
+     0     1     0     0     1     0     0     1     1     3
+
+  列 11 至 20
+
+     0     0     2     1     1     0     0     0     1     0
+
+前20个DH3码为：
+  列 1 至 10
+
+     0    -1     0     0     1     0     0    -1     1     0
+
+  列 11 至 20
+
+     0     0     1    -1     1     0     0     0    -1     0
+
+&gt;&gt; 
+</code></pre>
+<p>观察可知，仿真程序实现了HDB3编码，并按照与题2相同的方式绘出图像。</p>
+<p>然而在实际操作过程中，笔者发现当序列前4个数都为0时，此时V没有前一个非零脉冲，无法按规则进行编码，经过查阅资料后，规定若前4个数都为0时，该取代节同时含有V和B，取值相等。示例如下：</p>
+<figure data-type="image" tabindex="3"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202310251948639.png" alt="image-20231025194804464" loading="lazy"></figure>
+<pre><code class="language-matlab">序列中1的个数为：
+   297
+
+前20个序列为：
+  列 1 至 10
+
+     0     0     0     0     0     0     0     0     1     0
+
+  列 11 至 20
+
+     0     0     0     0     1     1     0     0     1     1
+
+替换替换节后，前20个码为：
+  列 1 至 10
+
+     3     0     0     2     3     0     0     2     1     3
+
+  列 11 至 20
+
+     0     0     2     0     1     1     0     0     1     1
+
+前20个DH3码为：
+  列 1 至 10
+
+    -1     0     0    -1     1     0     0     1    -1     0
+
+  列 11 至 20
+
+     0     0    -1     0     1    -1     0     0     1    -1
+
+&gt;&gt; 
+</code></pre>
+</li>
+<li>
+<p>仿真结果如下：</p>
+<p>原码：<img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202157813.png" alt="image-20231120215740723" loading="lazy"></p>
+<p>AMI码：<img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202148198.png" alt="image-20231120214820086" loading="lazy"></p>
+<p>HDB3码：</p>
+<figure data-type="image" tabindex="4"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202207866.png" alt="image-20231120220751779" loading="lazy"></figure>
+</li>
+<li>
+<p>仿真结果如下：</p>
+<p>当0出现的概率为0：</p>
+<figure data-type="image" tabindex="5"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202211075.png" alt="image-20231120221118821" loading="lazy"></figure>
+<p>当0出现的概率为0.2：</p>
+<figure data-type="image" tabindex="6"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202211644.png" alt="image-20231120221151566" loading="lazy"></figure>
+<p>当0出现的概率为0.4：</p>
+<figure data-type="image" tabindex="7"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202212887.png" alt="image-20231120221218806" loading="lazy"></figure>
+<p>当0出现的概率为0.5：</p>
+<figure data-type="image" tabindex="8"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202213528.png" alt="image-20231120221301351" loading="lazy"></figure>
+<p>当0出现的概率为0.6：</p>
+<figure data-type="image" tabindex="9"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202213145.png" alt="image-20231120221326963" loading="lazy"></figure>
+<p>当0出现的概率为0.8：</p>
+<figure data-type="image" tabindex="10"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202213752.png" alt="image-20231120221356666" loading="lazy"></figure>
+<p>当0出现的概率为1：</p>
+<figure data-type="image" tabindex="11"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202311202214461.png" alt="image-20231120221438382" loading="lazy"></figure>
+<p>观察图像可知，随着0出现概率变大，功率谱的峰值越小，高频峰值与低频峰值的差距变小，当0出现概率为1，功率谱为0。</p>
+</li>
+</ol>
+<h2 id="v结论">Ⅴ结论</h2>
+<ol>
+<li>仿真效果符合题目要求。</li>
+<li>仿真结果实现了AMI归零编码。</li>
+<li>仿真结果实现了HDB3编码，并在特殊情况下做出了规定。</li>
+<li>仿真结果实现了估计频率谱。</li>
+<li>随着0出现概率变大，功率谱的峰值越小，高频峰值与低频峰值的差距变小，当0出现概率为1，功率谱为0。</li>
+</ol>
+<h2 id="参考文献">参考文献</h2>
+<p>[1]Discrete Signals and Systems with MATLAB®[S].</p>
+<p>[2]Digital Signal Processing: A Primer With MATLAB[S].</p>
+<p>[3]Fundamentals of Graphics Using MATLAB[S].</p>
+<!-- more -->
+
+          </div>
+          <div class="toc-container">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#i%E7%AE%80%E4%BB%8B">Ⅰ简介</a>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86%E7%AE%80%E4%BB%8B">背景知识简介</a></li>
+<li><a href="#%E4%BD%9C%E4%B8%9A%E7%9B%AE%E6%A0%87">作业目标</a>
+<ul>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84">实验目的</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#ii%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0">Ⅱ基本原理/算法概述</a></li>
+<li><a href="#iii%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%A6%82%E8%BF%B0">Ⅲ编程实现概述</a></li>
+<li><a href="#iv%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C%E5%92%8C%E5%88%86%E6%9E%90">Ⅳ仿真结果和分析</a></li>
+<li><a href="#v%E7%BB%93%E8%AE%BA">Ⅴ结论</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE">参考文献</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/hello-gridea/">下一篇</a>
+          </div>
+        </div>
+        
+        
+        <div class="prev-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/shi-yong-di-san-fang-gong-ju-jin-yong-windows-zi-dong-geng-xin-he-an-quan-zhong-xin-de-fang-fa/">上一篇</a>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://Ge-Ju.github.io/atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://Ge-Ju.github.io/media/scripts/jquery.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/browser.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/breakpoints.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/util.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/main.js"></script>
+  
+  <script src="https://Ge-Ju.github.io/media/scripts/prism.js"></script>
+  <script>
+    Prism.highlightAll();
+  </script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="这世界并不完美，但正合我意。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>脑电ERP信号的提取方法 | Ge-Ju</title>
+<link rel="shortcut icon" href="https://Ge-Ju.github.io/favicon.ico?v=1745331734893">
+<link rel="stylesheet" href="https://Ge-Ju.github.io/styles/main.css">
+
+
+  <link rel="canonical" href="https://Ge-Ju.github.io/post/nao-dian-erp-xin-hao-de-ti-qu-fang-fa/" />
+  <meta name="socialText" content="" />
+  <meta name="description" content="实验内容
+事件相关电位（Event related potential, ERP）是指当外加一种特定的刺激，作用于感觉系统或脑的某一部位，在给予或撤销刺激时，或当某种心理因素出现时，在脑区所产生的电位变化。EEG的波幅可达50~100 μV..." />
+  <meta name="referrer" content="always" />
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/katex.min.css">
+  <script defer src="https://Ge-Ju.github.io/media/scripts/katex.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="https://Ge-Ju.github.io/media/css/prism.css">
+  
+    
+  
+</head>
+
+<body class="is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+<header id="header">
+  <div class="inner">
+    <!-- Logo -->
+    <a href="https://Ge-Ju.github.io" class="logo">
+      <span class="symbol"
+        ><img
+          src="https://Ge-Ju.github.io/images/avatar.png?v=1745331734893"
+          alt=""
+        />
+      </span>
+      <div class="site-title"> Ge-Ju </div>
+    </a>
+
+    <!-- Nav -->
+    <nav>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul>
+    
+    
+      <li><a href="/" class="menu">
+        首页
+      </a></li>
+      
+    
+    
+      <li><a href="/archives" class="menu">
+        归档
+      </a></li>
+      
+    
+    
+      <li><a href="/tags" class="menu">
+        标签
+      </a></li>
+      
+    
+    
+      <li><a href="/gallery" class="menu">
+        相册
+      </a></li>
+      
+    
+    
+      <li><a href="/post/about" class="menu">
+        关于
+      </a></li>
+      
+    
+  </ul>
+</nav>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+        <div class="post-pagetitle">
+          <h1>
+            脑电ERP信号的提取方法
+          </h1>
+        </div>
+        <div class="post-info">
+          <time class="post-time">
+            2025-03-09
+          </time>
+          <span class="read-times">
+            6 min read
+          </span>
+          
+          <a href="https://Ge-Ju.github.io/tag/n6qGbP84Es/" class="post-tags">
+            # 信号与信息处理
+          </a>
+          
+        </div>
+        
+        <img src='https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202503092032668.jpg' class="post-feature" alt="" />
+        
+        <div class="post-content-wrapper">
+          <div class="post-content">
+            <h2 id="实验内容">实验内容</h2>
+<p>事件相关电位（Event related potential, ERP）是指当外加一种特定的刺激，作用于感觉系统或脑的某一部位，在给予或撤销刺激时，或当某种心理因素出现时，在脑区所产生的电位变化。EEG的波幅可达50~100 μV，一次刺激诱发的ERP的波幅一般约2~10 μV，比自发电位（EEG）小得多，淹没在EEG中。二者构成小信号与大噪声的关系。但ERP具有两个恒定，一是波形恒定，二是潜伏期恒定，即同一诱发刺激多次出现时，每次刺激引起的ERP波形和潜伏期都是相同的。利用这两个恒定，可以通过叠加，从EEG中将ERP提取出来。<br>
+由于作为ERP背景的EEG与刺激间无固定的关系，而ERP波形在每次刺激后是相同的，且ERP波形与刺激间的时间间隔（潜伏期）是固定的，所以经过将刺激时间对齐的叠加，ERP与叠加次数成比例地增大，而EEG则按随机噪声方式加和。若刺激次数为n，则叠加n次后ERP增大n倍，而EEG只增大<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msqrt><mi>n</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt {n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.23972em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8002800000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathdefault">n</span></span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
+-10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
+-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
+35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
+-221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
+s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
+s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span></span></span></span>倍, 信噪比提高<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msqrt><mi>n</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt {n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.23972em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8002800000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathdefault">n</span></span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
+-10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
+-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
+35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
+-221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
+s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
+s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span></span></span></span>倍。叠加后的ERP数值除以叠加次数，其平均值即还原为一次刺激的ERP数值。因此，ERP又称平均诱发电位，即叠加后的平均。[参考魏景汉，事件相关电位原理与技术]</p>
+<p>数据说明：</p>
+<ol>
+<li>
+<p>sig01文件和sig02文件对应不同频率声音刺激下得到的脑电ERP信号；</p>
+<p>数据格式为mat文件，在每个文件中，脑电数据存为一个2×701×100的矩阵，每个维度分别对应：导联（2个导联）×信号（701个采样点）×试次（100个试次，即重复刺激100次）；第1导联为FCz电极，第2导联为Cz电极；</p>
+<p>数据采样率为1000Hz；</p>
+</li>
+<li>
+<p>第1~200采样点表示刺激前200ms，用于得到参考基线；第200采样点为刺激出现时刻，201~701采样点为刺激出现后的700ms数据。</p>
+</li>
+<li>
+<p>去基线：将1~200采样点进行叠加平均，然后全时段701个点均减去此平均值，所得结果为去基线之后的脑电响应。</p>
+</li>
+</ol>
+<p>题目要求：</p>
+<ol>
+<li>设计数字滤波器，滤除低频和高频噪声。带宽0.5~30 Hz。采样率1000 Hz，低通截止频率30Hz，高通截止频率0.5Hz。给出低高通滤波器的频率响应。</li>
+<li>将每个试次的脑电信号进行滤波，利用时域叠加平均方法提取ERP波形，即试次维度累加后平均。</li>
+<li>将滤波后每个试次的脑电信号进行fft频谱分析，然后将所有试次的频率响应进行叠加平均，给出波形。注意横坐标为0-1000Hz。</li>
+</ol>
+<h2 id="实验原理">实验原理</h2>
+<h3 id="设计方案">设计方案</h3>
+<p>首先设计两个滤波器，一个低通一个高通，这里采用FIR滤波器。考虑到自然噪声，这里在滤波器中耦合一个高斯滤波器。对信号进行滤波后，将1~200采样点进行叠加平均，然后全时段701个点均减去此平均值，所得结果为去基线之后的脑电响应。对去基线后的信号采用时域大姐平均的方法，即求每个时刻的信号均值，得到ERP信号。对得到的ERP信号进行FFT频谱分析，并对频率响应进行叠加平均。</p>
+<h3 id="实现方法">实现方法</h3>
+<p>设计高通滤波和低通滤波具体如下：</p>
+<pre><code class="language-matlab">% 低通滤波器
+fs = 1000;  % 采样频率
+fc = 30;  % 低通滤波器低频截止频率
+order = 200; % 滤波器阶数
+t = 0:0.001:0.701-0.001;%时间向量
+f_norm = fc / (fs/2);
+b = fir1(order, f_norm,&quot;low&quot;);
+</code></pre>
+<pre><code class="language-matlab">% 高通滤波器
+fs = 1000;  % 采样频率
+fc = 0.5;  % 低通滤波器低频截止频率
+order = 200; % 滤波器阶数
+t = 0:0.001:0.701-0.001;%时间向量
+f_norm = fc / (fs/2);
+b = fir1(order, f_norm,&quot;high&quot;);
+</code></pre>
+<p>高斯滤波器设计如下：</p>
+<pre><code class="language-matlab">%高斯滤波
+sigma = 1;%高斯函数标准差
+r = 10;%高斯模板大小
+% 生成一维高斯滤波模板
+GaussTemp = ones(1,r*2-1);
+for i=1 : r*2-1
+    GaussTemp(i) = exp(-(i-r)^2/(2*sigma^2))/(sigma*sqrt(2*pi));
+end
+</code></pre>
+<pre><code class="language-matlab">% 高斯滤波
+y_filted01 = y01;
+y_filted02 = y02;
+for k = r : length(y01)-r
+    y_filted01(k) = y01(k-r+1 : k+r-1)*GaussTemp';
+    y_filted02(k) = y02(k-r+1 : k+r-1)*GaussTemp';
+end
+</code></pre>
+<p>滤波后对前200个点求均值，然后全体减去均值得到去基线的数据</p>
+<pre><code class="language-matlab">%去基线
+for i=1:2
+    for j=1:100
+        jz01 = mean(sig01(i,1:200,j));
+        jz02 = mean(sig02(i,1:200,j));
+        sig01_rb(i,:,j) = sig01(i,:,j) - jz01;
+        sig02_rb(i,:,j) = sig02(i,:,j) - jz02;
+    end
+end
+</code></pre>
+<p>对去极限的数据进行时域平均，得到ERP数据，然后进行FFT分析。</p>
+<h2 id="结果分析">结果分析</h2>
+<p>对原始信号进行低通滤波，滤波器响应如下：</p>
+<figure data-type="image" tabindex="1"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071441811.png" alt="image-20240107144133767" loading="lazy"></figure>
+<p>滤波结果如下：</p>
+<figure data-type="image" tabindex="2"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071441263.png" alt="image-20240107144126185" loading="lazy"></figure>
+<p>对低通滤波后的信号进行高通滤波（两者顺序可以相反），滤波器响应如下：</p>
+<figure data-type="image" tabindex="3"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071442995.png" alt="image-20240107144226944" loading="lazy"></figure>
+<p>滤波结果如下：</p>
+<figure data-type="image" tabindex="4"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071442784.png" alt="image-20240107144240721" loading="lazy"></figure>
+<p>对滤波后信号进行去基线处理，得到的结果如下：</p>
+<figure data-type="image" tabindex="5"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071444041.png" alt="image-20240107144435965" loading="lazy"></figure>
+<p>进行时域叠加平均，得到ERP信号如下：</p>
+<figure data-type="image" tabindex="6"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071445210.png" alt="image-20240107144522149" loading="lazy"></figure>
+<p>对ERP信号进行FFT分析，得到频谱并叠加平均结果如下：</p>
+<figure data-type="image" tabindex="7"><img src="https://fanzhengeju-picgo.oss-cn-beijing.aliyuncs.com/img/202401071446727.png" alt="image-20240107144624664" loading="lazy"></figure>
+
+          </div>
+          <div class="toc-container">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%8E%9F%E7%90%86">实验原理</a>
+<ul>
+<li><a href="#%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88">设计方案</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95">实现方法</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90">结果分析</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+
+        <div class="page-count">
+          
+
+          
+        </div>
+      </div>
+
+      <div class="post-pagination inner">
+        
+        <div class="next-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/vr-yan-dong-shu-ju-de-mu-biao-shi-bie/">下一篇</a>
+          </div>
+        </div>
+        
+        
+        <div class="prev-post">
+          <div>
+            <a href="https://Ge-Ju.github.io/post/xin-dian-xin-hao-xin-lu-jian-ce-fang-fa/">上一篇</a>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- back to top -->
+    <button oneclik="topFunction()" id="BackToTop">
+      TOP
+    </button>
+
+    <div class="post-comment inner">
+      <div class="post-comment">
+        
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer id="footer">
+  <div class="inner">
+    <section>
+      <h2>Follow</h2>
+      <ul class="icons">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </section>
+    <ul class="copyright">
+      <li>
+        <a href="https://Ge-Ju.github.io/atom.xml" target="_blank">
+          RSS
+        </a> 
+      </li>
+      <li><a href="https://github.com/wherelse/gridea-theme-phantom">Theme Phantom</a></li>
+      <li>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></li>
+      
+    </ul>
+  </div>
+</footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://Ge-Ju.github.io/media/scripts/jquery.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/browser.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/breakpoints.min.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/util.js"></script>
+  <script src="https://Ge-Ju.github.io/media/scripts/main.js"></script>
+  
+  <script src="https://Ge-Ju.github.io/media/scripts/prism.js"></script>
+  <script>
+    Prism.highlightAll();
+  </script>
+  
+  <script>
+    post_scroll();
+    back_to_top();
+  </script>
+</body>
+
+</html>
